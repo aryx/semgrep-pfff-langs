@@ -77,8 +77,10 @@ else
   else
     echo "System tree-sitter >= $REQUIRED_VERSION not found; building locally..."
   fi
-  (cd libs/ocaml-tree-sitter-core \
-     && ./scripts/install-tree-sitter-lib)
-  local_prefix="$(pwd)/libs/ocaml-tree-sitter-core/tree-sitter"
+  # Resolve paths relative to this script's directory (inside semgrep-pfff-langs/)
+  _script_dir="$(cd "$(dirname "$0")" && pwd)"
+  _ts_core="$_script_dir/../libs/ocaml-tree-sitter-core"
+  (cd "$_ts_core" && ./scripts/install-tree-sitter-lib)
+  local_prefix="$(cd "$_ts_core" && pwd)/tree-sitter"
   write_config "$local_prefix/include" "$local_prefix/lib"
 fi
