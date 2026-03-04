@@ -1,0 +1,16 @@
+(library
+ (public_name pfff_lang_GENERIC_naming)
+ (name pfff_lang_GENERIC_naming)
+ (wrapped false)
+ (libraries
+   commons
+   ast_generic
+   lib_languages
+ )
+ (preprocess
+    (pps
+      profiling.ppx
+      ppx_deriving.show
+    )
+ )
+)

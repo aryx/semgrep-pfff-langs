@@ -85,6 +85,11 @@ the other programming languages supported by atdgen."
   (description "Shared LSP_lang.t type and Language.ml for per-language support")
 )
 
+(package (name pfff_lang_GENERIC_naming)
+  (synopsis "Generic naming resolution for AST_generic")
+  (description "Name resolution for AST_generic programs.")
+)
+
 (package (name ojsonnet)
   (synopsis "Jsonnet interpreter in OCaml")
   (description "An OCaml implementation of the Jsonnet data templating language.")
