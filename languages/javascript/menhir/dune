@@ -9,7 +9,7 @@
    lib_parsing
    parser_javascript.ast
  )
- (preprocess (pps ppx_deriving.show ppx_profiling))
+ (preprocess (pps ppx_deriving.show profiling.ppx))
 )
 (ocamllex lexer_js)
 ; Use menhir-wrapper instead of (menhir ...) to suppress known conflicts
@@ -18,4 +18,4 @@
 (rule
  (targets parser_js.ml parser_js.mli)
  (deps parser_js.mly expected_menhir_conflicts)
- (action (run %{project_root}/menhir-wrapper parser_js.mly)))
+ (action (run %{workspace_root}/menhir-wrapper parser_js.mly)))

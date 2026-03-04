@@ -1,0 +1,7 @@
+(env
+  (_
+    ; -6 is to allow to omit labels in function application
+    ; -52 is to allow to match on Failure "precise_string"
+    ; -67 is to allow unused functor parameters
+    ; -69 allows unused structure fields
+    (flags (:standard -w -6-52-67-69))))

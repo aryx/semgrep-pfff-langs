@@ -17,4 +17,4 @@
 (rule
  (targets parser_java.ml parser_java.mli)
  (deps parser_java.mly)
- (action (run %{project_root}/menhir-wrapper parser_java.mly)))
+ (action (run %{workspace_root}/menhir-wrapper parser_java.mly)))

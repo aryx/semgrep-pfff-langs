@@ -17,4 +17,4 @@
 (rule
  (targets parser_go.ml parser_go.mli)
  (deps parser_go.mly)
- (action (run %{project_root}/menhir-wrapper parser_go.mly)))
+ (action (run %{workspace_root}/menhir-wrapper parser_go.mly)))

@@ -9,7 +9,7 @@
    ast_generic ; some use of is_metavar_name
    parser_scala.ast
  )
- (preprocess (pps ppx_deriving.show ppx_profiling))
+ (preprocess (pps ppx_deriving.show profiling.ppx))
 )
 (ocamllex Lexer_scala)
 ; TODO: we don't really use menhir, just to get a list of tokens, could be defined without menhir!
@@ -19,4 +19,4 @@
 (rule
  (targets Parser_scala.ml Parser_scala.mli)
  (deps Parser_scala.mly)
- (action (run %{project_root}/menhir-wrapper --external-tokens Token_scala Parser_scala.mly)))
+ (action (run %{workspace_root}/menhir-wrapper --external-tokens Token_scala Parser_scala.mly)))

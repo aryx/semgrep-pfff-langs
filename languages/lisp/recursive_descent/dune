@@ -7,7 +7,7 @@
    lib_parsing
    parser_lisp.ast
  )
- (preprocess (pps ppx_deriving.show ppx_profiling))
+ (preprocess (pps ppx_deriving.show profiling.ppx))
 )
 (ocamllex lexer_lisp)
 ;(ocamlyacc parser_lisp)

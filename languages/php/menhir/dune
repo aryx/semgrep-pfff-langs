@@ -17,4 +17,4 @@
 (rule
  (targets parser_php.ml parser_php.mli)
  (deps parser_php.mly expected_menhir_conflicts)
- (action (run %{project_root}/menhir-wrapper parser_php.mly)))
+ (action (run %{workspace_root}/menhir-wrapper parser_php.mly)))

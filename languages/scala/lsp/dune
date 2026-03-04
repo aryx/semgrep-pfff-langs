@@ -4,4 +4,4 @@
  (wrapped false)
  (libraries commons lib_languages ast_generic TCB
    parser_scala.recursive_descent parser_scala.ast_generic)
- (preprocess (pps ppx_deriving.show ppx_profiling)))
+ (preprocess (pps ppx_deriving.show profiling.ppx)))

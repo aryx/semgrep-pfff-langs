@@ -8,7 +8,7 @@
    lib_parsing
    parser_python.ast
  )
- (preprocess (pps ppx_deriving.show ppx_profiling))
+ (preprocess (pps ppx_deriving.show profiling.ppx))
 )
 (ocamllex Lexer_python)
 ; Use menhir-wrapper instead of (menhir ...) to suppress known conflicts
@@ -17,4 +17,4 @@
 (rule
  (targets Parser_python.ml Parser_python.mli)
  (deps Parser_python.mly expected_menhir_conflicts)
- (action (run %{project_root}/menhir-wrapper Parser_python.mly)))
+ (action (run %{workspace_root}/menhir-wrapper Parser_python.mly)))

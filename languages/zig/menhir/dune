@@ -17,4 +17,4 @@
 (rule
  (targets Parser_zig.ml Parser_zig.mli)
  (deps Parser_zig.mly expected_menhir_conflicts)
- (action (run %{project_root}/menhir-wrapper Parser_zig.mly)))
+ (action (run %{workspace_root}/menhir-wrapper Parser_zig.mly)))

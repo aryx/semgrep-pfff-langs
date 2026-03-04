@@ -17,4 +17,4 @@
 (rule
  (targets parser_cpp.ml parser_cpp.mli)
  (deps parser_cpp.mly expected_menhir_conflicts)
- (action (run %{project_root}/menhir-wrapper parser_cpp.mly)))
+ (action (run %{workspace_root}/menhir-wrapper parser_cpp.mly)))

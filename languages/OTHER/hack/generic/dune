@@ -5,7 +5,7 @@
  (libraries
    commons
    ast_generic
-   semgrep_core; just for Range
+   semgrep.core ; just for Range
    lib_parsing_tree_sitter
    tree-sitter-lang.hack
  )
