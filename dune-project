@@ -109,6 +109,10 @@ the other programming languages supported by atdgen."
 
 ;; Codemap analysis libraries
 
+(package (name layer_code)
+  (synopsis "Visualization layers/overlays")
+  (description "Layer infrastructure for code visualization overlays.")
+)
 (package (name graph_code)
   (synopsis "Code dependency graph")
   (description "Dependency graph representation and analysis for code entities.")
