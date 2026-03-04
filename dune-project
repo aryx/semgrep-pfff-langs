@@ -107,6 +107,33 @@ the other programming languages supported by atdgen."
   (allow_empty)
 )
 
+;; Codemap analysis libraries
+
+(package (name graph_code)
+  (synopsis "Code dependency graph")
+  (description "Dependency graph representation and analysis for code entities.")
+)
+(package (name highlight_code)
+  (synopsis "Semantic code highlighting")
+  (description "Semantic highlighting infrastructure for source code.")
+)
+(package (name database_code)
+  (synopsis "Code entity database")
+  (description "In-memory entity database, big grep indexing, completion.")
+)
+(package (name parser_nw)
+  (synopsis "Noweb parser")
+  (description "Parser for Noweb literate programming files.")
+)
+(package (name codemap_parser_html)
+  (synopsis "HTML parser for codemap")
+  (description "Full menhir-based HTML parser used by codemap.")
+)
+(package (name highlighters)
+  (synopsis "Per-language syntax highlighters")
+  (description "Semantic syntax highlighters for many programming languages.")
+)
+
 ;; Per-language parser packages (sorted alphabetically)
 
 (package (name parser_bash)

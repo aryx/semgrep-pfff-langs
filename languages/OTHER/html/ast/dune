@@ -1,0 +1,10 @@
+(library
+ (public_name codemap_parser_html.ast)
+ (name codemap_parser_html_ast)
+ (wrapped false)
+ (libraries
+   commons
+   lib_parsing
+ )
+ (preprocess (pps ppx_deriving.show))
+)
