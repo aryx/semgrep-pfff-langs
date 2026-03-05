@@ -24,3 +24,6 @@ val parse_lisp:
 val parse_haskell:
   Fpath.t -> AST_generic.program * (Tok.t * origin_info) list
 
+val parse_zig:
+  Fpath.t -> AST_generic.program * (Tok.t * origin_info) list
+

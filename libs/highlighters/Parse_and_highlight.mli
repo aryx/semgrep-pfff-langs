@@ -36,3 +36,6 @@ val lisp:
 
 val haskell:
   (AST_generic.program, Tok.t * Parse_languages.origin_info) t
+
+val zig:
+  (AST_generic.program, Tok.t * Parse_languages.origin_info) t

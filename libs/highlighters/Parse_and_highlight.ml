@@ -114,6 +114,38 @@ let haskell = {
   info_of_tok = (fun (x, _origin) -> x);
 }
 
+let zig = {
+  parse = Parse_languages.parse_zig;
+  highlight = (fun ~tag_hook prefs file (ast, toks) ->
+        Highlight_AST.visit_for_highlight ~tag_hook prefs file (ast, toks);
+        toks |> List.iter (fun (info, origin) ->
+          let s = Tok.content_of_tok info in
+          (match s, origin with
+          | ("const" | "var" | "fn" | "return" | "defer" | "errdefer"
+            | "inline" | "comptime" | "test" | "pub" | "extern" | "export"
+            | "noalias" | "asm" | "volatile" | "threadlocal" | "packed"
+            | "opaque"), PL.InCST ->
+              tag_hook info HC.Keyword
+          | ("struct" | "enum" | "union"), PL.InCST ->
+              tag_hook info HC.KeywordObject
+          | ("if" | "else" | "switch" | "orelse"), PL.InCST ->
+              tag_hook info HC.KeywordConditional
+          | ("while" | "for" | "break" | "continue"), PL.InCST ->
+              tag_hook info HC.KeywordLoop
+          | ("try" | "catch" | "error" | "unreachable"), PL.InCST ->
+              tag_hook info HC.KeywordExn
+          | ("usingnamespace"), PL.InCST ->
+              tag_hook info HC.KeywordModule
+          | ("true" | "false"), PL.InCST ->
+              tag_hook info HC.Boolean
+          | ("null" | "undefined"), PL.InCST ->
+              tag_hook info HC.Null
+          | _else_ -> ()
+          )
+        ));
+  info_of_tok = (fun (x, _origin) -> x);
+}
+
 let dockerfile = {
   parse = Parse_languages.parse_dockerfile;
   highlight = (fun ~tag_hook prefs file (ast, toks) -> 

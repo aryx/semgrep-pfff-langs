@@ -38,6 +38,7 @@
    parser_lisp.tree_sitter
    parser_yaml.ast_generic
    parser_haskell.tree_sitter parser_haskell.ast_generic
+   parser_zig.menhir parser_zig.ast_generic
 
    ; for generic name resolver
    pfff_lang_GENERIC_naming

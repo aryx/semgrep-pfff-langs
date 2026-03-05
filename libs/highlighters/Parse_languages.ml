@@ -223,6 +223,28 @@ let parse_haskell (file : Fpath.t) =
   in
   ast, tokens
 
+let parse_zig (file : Fpath.t) =
+  let res =
+    Common.save_excursion Flag_parsing.error_recovery true (fun () ->
+        Parse_zig.parse file)
+  in
+  let ast =
+    match res.Parsing_result.ast with
+    | [] -> []
+    | prog ->
+        let gen = Zig_to_generic.program prog in
+        Naming_AST.resolve Lang.Zig gen;
+        gen
+  in
+  let toks =
+    res.Parsing_result.tokens
+    |> List_.filter_map (fun tok ->
+      let info = Token_helpers_zig.info_of_tok tok in
+      if Tok.is_origintok info then Some (info, InCST)
+      else None)
+  in
+  ast, toks
+
 (* We don't have a tree-sitter parser for YAML but use ocaml-yaml lib *)
 let parse_yaml (file : Fpath.t) =
   let ast = Yaml_to_generic.program file in
