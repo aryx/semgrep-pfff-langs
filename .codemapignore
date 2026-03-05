@@ -1,0 +1,14 @@
+# -*- sh -*-
+# gitignore-like file for Codemap (see https://github.com/aryx/codemap)
+
+# ocaml-tree-sitter generated code
+/languages/**/Parse.ml
+/languages/**/Boilerplate.ml
+/languages/**/CST.ml
+# those are huge
+/languages/**/parser.c
+/languages/**/parser.h
+/languages/**/array.h
+# TODO get rid of?
+/languages/typescript/tree-sitter/Boilerplate_tree_sitter_typescript.ml
+/languages/typescript/tree-sitter/CST_tree_sitter_typescript.ml
