@@ -84,6 +84,7 @@ module E = Entity_code
 
 (* will be italic vs non-italic (could be large vs small ? or bolder ? *)
 type usedef = Use | Def
+[@@deriving show { with_path = false }]
 
 (* colors will be adjusted (degrade de couleurs) (could also do size? *)
 type place =
@@ -95,15 +96,21 @@ type place =
    * quite similar to an error.
    *)
   | NoInfoPlace
+[@@deriving show { with_path = false }]
 
 (* will be underlined or strikedthrough *)
 type def_arity = UniqueDef | DoubleDef | MultiDef | NoDef
+[@@deriving show { with_path = false }]
 
 (* will be different colors *)
 type use_arity = NoUse | UniqueUse | SomeUse | MultiUse | LotsOfUse | HugeUse
+[@@deriving show { with_path = false }]
 type use_info = place * def_arity * use_arity
+[@@deriving show { with_path = false }]
 type def_info = use_arity
+[@@deriving show { with_path = false }]
 type usedef2 = Use2 of use_info | Def2 of def_info
+[@@deriving show { with_path = false }]
 
 (*****************************************************************************)
 (* Main type *)
@@ -241,6 +248,7 @@ type category =
   | NoType
   (* well, normal code *)
   | Normal
+[@@deriving show { with_path = false }]
 
 type highlighter_preferences = {
   mutable show_type_error : bool;

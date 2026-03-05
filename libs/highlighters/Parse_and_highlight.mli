@@ -31,5 +31,8 @@ val bash:
 val dockerfile: 
   (AST_generic.program, Tok.t * Parse_languages.origin_info) t
 
-val lisp: 
+val lisp:
+  (AST_generic.program, Tok.t * Parse_languages.origin_info) t
+
+val haskell:
   (AST_generic.program, Tok.t * Parse_languages.origin_info) t

@@ -101,6 +101,9 @@ and use_info = place * def_arity * use_arity
 and place = PlaceLocal | PlaceSameDir | PlaceExternal | NoInfoPlace
 and def_arity = UniqueDef | DoubleDef | MultiDef | NoDef
 
+val pp_category : Format.formatter -> category -> unit
+val show_category : category -> string
+
 type highlighter_preferences = {
   mutable show_type_error : bool;
   mutable show_local_global : bool;

@@ -203,6 +203,26 @@ let parse_dockerfile (file : Fpath.t) =
   in
   ast, tokens
 
+let parse_haskell (file : Fpath.t) =
+  let res = Parse_haskell_tree_sitter.parse file in
+  let tokens =
+    let res = Tree_sitter_haskell.Parse.file !!file in
+    match res.Tree_sitter_run.Parsing_result.program with
+    | None -> []
+    | Some cst ->
+       let raw = Tree_sitter_haskell.Boilerplate.map_haskell () cst in
+       extract_infos_raw_tree file raw
+  in
+  let ast =
+    match res.Tree_sitter_run.Parsing_result.program with
+    | Some ast ->
+        let gen = Haskell_to_generic.program ast in
+        Naming_AST.resolve Lang.Haskell gen;
+        gen
+    | None -> []
+  in
+  ast, tokens
+
 (* We don't have a tree-sitter parser for YAML but use ocaml-yaml lib *)
 let parse_yaml (file : Fpath.t) =
   let ast = Yaml_to_generic.program file in

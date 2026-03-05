@@ -21,3 +21,6 @@ val parse_dockerfile:
 val parse_lisp:
   Fpath.t -> AST_generic.program * (Tok.t * origin_info) list
 
+val parse_haskell:
+  Fpath.t -> AST_generic.program * (Tok.t * origin_info) list
+
