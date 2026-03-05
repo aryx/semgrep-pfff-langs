@@ -93,7 +93,24 @@ let bash = {
 let haskell = {
   parse = Parse_languages.parse_haskell;
   highlight = (fun ~tag_hook prefs file (ast, toks) ->
-        Highlight_AST.visit_for_highlight ~tag_hook prefs file (ast, toks));
+        Highlight_AST.visit_for_highlight ~tag_hook prefs file (ast, toks);
+        toks |> List.iter (fun (info, origin) ->
+          let s = Tok.content_of_tok info in
+          (match s, origin with
+          | ("module" | "where" | "import" | "qualified" | "as" | "hiding"),
+            PL.InCST -> tag_hook info HC.KeywordModule
+          | ("data" | "newtype" | "type" | "let" | "in" | "do" | "deriving"
+            | "instance" | "default" | "foreign"), PL.InCST ->
+              tag_hook info HC.Keyword
+          | ("class"), PL.InCST -> tag_hook info HC.KeywordObject
+          | ("if" | "then" | "else" | "case" | "of" | "guard"), PL.InCST ->
+              tag_hook info HC.KeywordConditional
+          | ("where"), PL.Extra -> tag_hook info HC.KeywordModule
+          | ("infixl" | "infixr" | "infix"), PL.InCST ->
+              tag_hook info HC.Keyword
+          | _else_ -> ()
+          )
+        ));
   info_of_tok = (fun (x, _origin) -> x);
 }
 
