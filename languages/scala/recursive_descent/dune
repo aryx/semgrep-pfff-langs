@@ -6,6 +6,7 @@
    menhirLib
    commons
    lib_parsing
+   ast_fuzzy
    ast_generic ; some use of is_metavar_name
    parser_scala.ast
  )

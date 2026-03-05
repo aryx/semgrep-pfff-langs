@@ -27,7 +27,7 @@ val type_of_string :
 (* for sgrep via fuzzy AST *)
 (*
 val parse_fuzzy:
-  string (* filename *) -> Ast_fuzzy.trees * Parser_python.token list
+  string (* filename *) -> AST_fuzzy.trees * Parser_python.token list
 *)
 
 (* to help write test code *)

@@ -18,7 +18,7 @@ module Flag = Flag_parsing
 module Ast = Ast_js
 module T = Parser_js
 module TH = Token_helpers_js
-module F = Ast_fuzzy
+module F = AST_fuzzy
 module Log = Log_parser_javascript.Log
 
 (*****************************************************************************)
@@ -88,7 +88,7 @@ let rparens_of_if toks =
   !rparens_if
 *)
 
-(* alt: could have instead a better Ast_fuzzy type instead of putting
+(* alt: could have instead a better AST_fuzzy type instead of putting
  * everything in the Tok category?
  *)
 let is_identifier horigin (info : Tok.t) =

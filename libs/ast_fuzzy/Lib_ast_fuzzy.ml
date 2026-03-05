@@ -13,7 +13,7 @@
  * license.txt for more details.
  *)
 open Common
-open Ast_fuzzy
+open AST_fuzzy
 
 (*****************************************************************************)
 (* Prelude *)
@@ -94,23 +94,23 @@ let mk_trees h xs =
     match x with
     | tok when h.kind tok =*= LBrace ->
         let body, closing, rest = look_close RBrace x [] xs in
-        (Ast_fuzzy.Braces (h.tokf x, body, h.tokf closing), rest)
+        (AST_fuzzy.Braces (h.tokf x, body, h.tokf closing), rest)
     | tok when h.kind tok =*= LBracket ->
         let body, closing, rest = look_close RBracket x [] xs in
-        (Ast_fuzzy.Bracket (h.tokf x, body, h.tokf closing), rest)
+        (AST_fuzzy.Bracket (h.tokf x, body, h.tokf closing), rest)
     | tok when h.kind tok =*= LAngle ->
         let body, closing, rest = look_close RAngle x [] xs in
-        (Ast_fuzzy.Angle (h.tokf x, body, h.tokf closing), rest)
+        (AST_fuzzy.Angle (h.tokf x, body, h.tokf closing), rest)
     | tok when h.kind tok =*= LPar ->
         let body, closing, rest = look_close_paren x [] xs in
         let body' = split_comma body in
-        (Ast_fuzzy.Parens (h.tokf x, body', h.tokf closing), rest)
-    | tok -> (Ast_fuzzy.Tok (Tok.content_of_tok (h.tokf tok), h.tokf x), xs)
+        (AST_fuzzy.Parens (h.tokf x, body', h.tokf closing), rest)
+    | tok -> (AST_fuzzy.Tok (Tok.content_of_tok (h.tokf tok), h.tokf x), xs)
     (*
     (match Ast.str_of_info (tokext tok) with
-    | "..." -> Ast_fuzzy.Dots (tokext tok)
-    | s when Ast_fuzzy.is_metavar s -> Ast_fuzzy.Metavar (s, tokext tok)
-    | s -> Ast_fuzzy.Tok (s, tokext tok)
+    | "..." -> AST_fuzzy.Dots (tokext tok)
+    | s when AST_fuzzy.is_metavar s -> AST_fuzzy.Metavar (s, tokext tok)
+    | s -> AST_fuzzy.Tok (s, tokext tok)
 *)
   and aux xs =
     match xs with
@@ -147,7 +147,7 @@ let mk_trees h xs =
       | [] -> if List_.null acc then [] else [ Either.Left (acc |> List.rev) ]
       | x :: xs -> (
           match x with
-          | Ast_fuzzy.Tok (",", info) ->
+          | AST_fuzzy.Tok (",", info) ->
               let before = acc |> List.rev in
               if List_.null before then aux [] xs
               else Either.Left before :: Either.Right info :: aux [] xs

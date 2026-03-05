@@ -16,7 +16,7 @@
 open Common
 module T = Lexer_nw
 module TH = Token_helpers_nw
-module F = Ast_fuzzy
+module F = AST_fuzzy
 module LF = Lib_ast_fuzzy
 open Highlight_code
 

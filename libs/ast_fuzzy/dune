@@ -1,0 +1,13 @@
+(library
+ (public_name ast_fuzzy)
+ (wrapped false)
+ (libraries
+   commons
+   lib_parsing
+ )
+ (preprocess
+   (pps
+      ppx_deriving.show
+   )
+ )
+)

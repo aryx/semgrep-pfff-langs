@@ -10,6 +10,7 @@
    ; semgrep deps
    commons
    lib_parsing
+   ast_fuzzy
    ast_generic ; now in semgrep
 
    ; lang-specific

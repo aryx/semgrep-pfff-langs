@@ -17,7 +17,7 @@ open Common
 open Parser_java
 module Flag = Flag_parsing
 module TH = Token_helpers_java
-module F = Ast_fuzzy
+module F = AST_fuzzy
 module T = Parser_java
 module Log = Log_parser_java.Log
 
@@ -35,7 +35,7 @@ module Log = Log_parser_java.Log
 (*****************************************************************************)
 (* Helpers *)
 (*****************************************************************************)
-(* alt: could have instead a better Ast_fuzzy type instead of putting
+(* alt: could have instead a better AST_fuzzy type instead of putting
  * everything in the Tok category?
  * coupling: copy-paste of Parsing_hacks_go.is_identifier
  *)

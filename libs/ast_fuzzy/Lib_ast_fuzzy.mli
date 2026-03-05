@@ -1,4 +1,4 @@
-open Ast_fuzzy
+open AST_fuzzy
 
 type token_kind =
   | LPar

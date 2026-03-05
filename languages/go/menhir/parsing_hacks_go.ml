@@ -17,7 +17,7 @@ open Parser_go
 module Flag = Flag_parsing
 module T = Parser_go
 module TH = Token_helpers_go
-module F = Ast_fuzzy
+module F = AST_fuzzy
 
 (*****************************************************************************)
 (* Prelude *)
@@ -39,7 +39,7 @@ type env_lbody = InIfHeader | Normal
 (* Helpers *)
 (*****************************************************************************)
 
-(* alt: could have instead a better Ast_fuzzy type instead of putting
+(* alt: could have instead a better AST_fuzzy type instead of putting
  * everything in the Tok category?
  *)
 let is_identifier horigin (info : Tok.t) =

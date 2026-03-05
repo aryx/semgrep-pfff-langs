@@ -109,16 +109,16 @@ let rec multi_grouped_list xs = xs |> List_.map multi_grouped
 
 and multi_grouped = function
   | Token_views_cpp.Braces (tok1, xs, Some tok2) ->
-      Ast_fuzzy.Braces (tokext tok1, multi_grouped_list xs, tokext tok2)
+      AST_fuzzy.Braces (tokext tok1, multi_grouped_list xs, tokext tok2)
   | Token_views_cpp.Parens (tok1, xs, Some tok2) ->
-      Ast_fuzzy.Parens (tokext tok1, multi_grouped_list_comma xs, tokext tok2)
+      AST_fuzzy.Parens (tokext tok1, multi_grouped_list_comma xs, tokext tok2)
   | Token_views_cpp.Angle (tok1, xs, Some tok2) ->
-      Ast_fuzzy.Angle (tokext tok1, multi_grouped_list xs, tokext tok2)
+      AST_fuzzy.Angle (tokext tok1, multi_grouped_list xs, tokext tok2)
   | Token_views_cpp.Tok tok -> (
       match Tok.content_of_tok (tokext tok) with
-      | "..." -> Ast_fuzzy.Dots (tokext tok)
-      | s when Ast_fuzzy.is_metavar s -> Ast_fuzzy.Metavar (s, tokext tok)
-      | s -> Ast_fuzzy.Tok (s, tokext tok))
+      | "..." -> AST_fuzzy.Dots (tokext tok)
+      | s when AST_fuzzy.is_metavar s -> AST_fuzzy.Metavar (s, tokext tok)
+      | s -> AST_fuzzy.Tok (s, tokext tok))
   | _ -> failwith "could not find closing brace/parens/angle"
 
 and tokext tok_extended = TH.info_of_tok tok_extended.Token_views_cpp.t

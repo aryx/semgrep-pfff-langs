@@ -39,6 +39,12 @@ parsers, especially ocamlyacc/menhir based parsers.
 )
 
 (package
+  (name ast_fuzzy)
+  (synopsis "Fuzzy/sexp-like AST for source code")
+  (description "Sexp-like data structure to represent programs, useful for parsing hacks.")
+)
+
+(package
   (name ast_generic)
   (version 1.8.0)
   (synopsis "Abstract Syntax Tree (AST) supporting 31 programming languages")

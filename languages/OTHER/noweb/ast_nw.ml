@@ -1,1 +1,1 @@
-type program = Ast_fuzzy.trees
+type program = AST_fuzzy.trees

@@ -6,6 +6,7 @@
    menhirLib
    commons
    lib_parsing
+   ast_fuzzy
    parser_java.ast
  )
  (preprocess (pps ppx_deriving.show))

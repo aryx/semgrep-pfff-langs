@@ -7,6 +7,7 @@
    commons
    process_limits
    lib_parsing
+   ast_fuzzy
    parser_javascript.ast
  )
  (preprocess (pps ppx_deriving.show profiling.ppx))
