@@ -32,16 +32,16 @@ url = https://github.com/returntocorp/semgrep-typescript
 path = languages/ocaml/tree-sitter/semgrep-ocaml
 url = https://github.com/returntocorp/semgrep-ocaml.git
 [submodule "OSS/languages/tree-sitter-lang/semgrep-hack"]
-	path = languages/OTHER/hack/tree-sitter/semgrep-hack
+	path = languages-misc/hack/tree-sitter/semgrep-hack
 url = https://github.com/returntocorp/semgrep-hack.git
 [submodule "OSS/languages/html/tree-sitter/semgrep-html"]
-	path = languages/OTHER/html/tree-sitter/semgrep-html
+	path = languages-misc/html/tree-sitter/semgrep-html
 url = https://github.com/returntocorp/semgrep-html.git
 [submodule "OSS/languages/tree-sitter-lang/semgrep-vue"]
-	path = languages/OTHER/vue/tree-sitter/semgrep-vue
+	path = languages-misc/vue/tree-sitter/semgrep-vue
 url = https://github.com/returntocorp/semgrep-vue.git
 [submodule "OSS/languages/dockerfile/tree-sitter/semgrep-dockerfile"]
-	path = languages/OTHER/dockerfile/tree-sitter/semgrep-dockerfile
+	path = languages-misc/dockerfile/tree-sitter/semgrep-dockerfile
 url = https://github.com/returntocorp/semgrep-dockerfile
 [submodule "OSS/languages/bash/tree-sitter/semgrep-bash"]
 path = languages/bash/tree-sitter/semgrep-bash
@@ -50,10 +50,10 @@ url = https://github.com/returntocorp/semgrep-bash
 path = languages/php/tree-sitter/semgrep-php
 url = https://github.com/returntocorp/semgrep-php
 [submodule "OSS/languages/terraform/tree-sitter/semgrep-hcl"]
-	path = languages/OTHER/terraform/tree-sitter/semgrep-hcl
+	path = languages-misc/terraform/tree-sitter/semgrep-hcl
 url = https://github.com/returntocorp/semgrep-hcl
 [submodule "OSS/languages/solidity/tree-sitter/semgrep-solidity"]
-	path = languages/BLOCKCHAIN/solidity/tree-sitter/semgrep-solidity
+	path = languages-blockchain/solidity/tree-sitter/semgrep-solidity
 url = https://github.com/returntocorp/semgrep-solidity.git
 [submodule "OSS/languages/python/tree-sitter/semgrep-python"]
 path = languages/python/tree-sitter/semgrep-python
@@ -65,25 +65,25 @@ url = https://github.com/returntocorp/semgrep-swift.git
 path = languages/julia/tree-sitter/semgrep-julia
 url = https://github.com/returntocorp/semgrep-julia.git
 [submodule "OSS/languages/jsonnet/tree-sitter/semgrep-jsonnet"]
-	path = languages/DATA/jsonnet/tree-sitter/semgrep-jsonnet
+	path = languages-config/jsonnet/tree-sitter/semgrep-jsonnet
 url = https://github.com/returntocorp/semgrep-jsonnet.git
 [submodule "OSS/languages/lisp/tree-sitter/semgrep-clojure"]
 path = languages/lisp/tree-sitter/semgrep-clojure
 url = https://github.com/returntocorp/semgrep-clojure.git
 [submodule "OSS/languages/cairo/tree-sitter/semgrep-cairo"]
-	path = languages/BLOCKCHAIN/cairo/tree-sitter/semgrep-cairo
+	path = languages-blockchain/cairo/tree-sitter/semgrep-cairo
 url = https://github.com/returntocorp/semgrep-cairo
 [submodule "OSS/languages/protobuf/tree-sitter/semgrep-proto"]
-	path = languages/OTHER/protobuf/tree-sitter/semgrep-proto
+	path = languages-misc/protobuf/tree-sitter/semgrep-proto
 url = https://github.com/returntocorp/semgrep-proto.git
 [submodule "OSS/languages/promql/tree-sitter/semgrep-promql"]
-	path = languages/OTHER/promql/tree-sitter/semgrep-promql
+	path = languages-misc/promql/tree-sitter/semgrep-promql
 url = https://github.com/returntocorp/semgrep-promql.git
 [submodule "OSS/languages/dart/tree-sitter/semgrep-dart"]
 path = languages/dart/tree-sitter/semgrep-dart
 url = https://github.com/returntocorp/semgrep-dart.git
 [submodule "OSS/languages/ql/tree-sitter/semgrep-ql"]
-	path = languages/OTHER/ql/tree-sitter/semgrep-ql
+	path = languages-misc/ql/tree-sitter/semgrep-ql
 url = https://github.com/semgrep/semgrep-ql
 [submodule "OSS/languages/ruby/tree-sitter/semgrep-ruby"]
 path = languages/ruby/tree-sitter/semgrep-ruby
@@ -92,19 +92,19 @@ url = https://github.com/returntocorp/semgrep-ruby.git
 path = languages/kotlin/tree-sitter/semgrep-kotlin
 url = https://github.com/returntocorp/semgrep-kotlin.git
 [submodule "OSS/languages/move-on-aptos/tree-sitter/semgrep-move-on-aptos"]
-	path = languages/BLOCKCHAIN/move_on_aptos/tree-sitter/semgrep-move-on-aptos
+	path = languages-blockchain/move_on_aptos/tree-sitter/semgrep-move-on-aptos
 url = https://github.com/semgrep/semgrep-move-on-aptos.git
 [submodule "OSS/languages/move_on_sui/tree-sitter/semgrep-move-on-sui"]
-	path = languages/BLOCKCHAIN/move_on_sui/tree-sitter/semgrep-move-on-sui
+	path = languages-blockchain/move_on_sui/tree-sitter/semgrep-move-on-sui
 url = https://github.com/semgrep/semgrep-move-on-sui.git
 [submodule "OSS/languages/circom/tree-sitter/semgrep-circom"]
-	path = languages/BLOCKCHAIN/circom/tree-sitter/semgrep-circom
+	path = languages-blockchain/circom/tree-sitter/semgrep-circom
 url = https://github.com/semgrep/semgrep-circom.git
 [submodule "OSS/languages/elixir/tree-sitter/semgrep-elixir"]
 	path = languages/elixir/tree-sitter/semgrep-elixir
 	url = https://github.com/returntocorp/semgrep-elixir
 [submodule "OSS/languages/toml/tree-sitter/semgrep-toml"]
-	path = languages/DATA/toml/tree-sitter/semgrep-toml
+	path = languages-config/toml/tree-sitter/semgrep-toml
 url = https://github.com/semgrep/semgrep-toml.git
 [submodule "languages/haskell/tree-sitter/semgrep-haskell"]
 	path = languages/haskell/tree-sitter/semgrep-haskell

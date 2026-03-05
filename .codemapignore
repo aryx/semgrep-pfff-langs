@@ -5,10 +5,16 @@
 /languages/**/Parse.ml
 /languages/**/Boilerplate.ml
 /languages/**/CST.ml
+/languages-*/**/Parse.ml
+/languages-*/**/Boilerplate.ml
+/languages-*/**/CST.ml
 # those are huge
 /languages/**/parser.c
 /languages/**/parser.h
 /languages/**/array.h
+/languages-*/**/parser.c
+/languages-*/**/parser.h
+/languages-*/**/array.h
 # TODO get rid of?
 /languages/typescript/tree-sitter/Boilerplate_tree_sitter_typescript.ml
 /languages/typescript/tree-sitter/CST_tree_sitter_typescript.ml
