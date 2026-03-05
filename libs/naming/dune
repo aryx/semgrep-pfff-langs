@@ -5,7 +5,7 @@
  (libraries
    commons
    ast_generic
-   lib_languages
+   languages
  )
  (preprocess
     (pps

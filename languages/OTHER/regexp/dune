@@ -3,7 +3,7 @@
  (libraries
    menhirLib ; needed when using --table
    commons
-   lib_parsing
+   parsing_core
  )
  (preprocess (pps ppx_deriving.show))
 )

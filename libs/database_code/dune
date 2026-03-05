@@ -5,7 +5,7 @@
  (wrapped false)
  (libraries
     commons profiling
-    lib_parsing
+    parsing_core
     commons2_
 
     ; now in codemap

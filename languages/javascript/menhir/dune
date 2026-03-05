@@ -6,7 +6,7 @@
    menhirLib ; this is needed when using --table
    commons
    process_limits
-   lib_parsing
+   parsing_core
    ast_fuzzy
    parser_javascript.ast
  )

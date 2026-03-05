@@ -9,7 +9,7 @@
    sexplib
 
    commons
-   lib_parsing
+   parsing_core
  )
  (preprocess
    (pps

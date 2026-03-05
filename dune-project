@@ -15,7 +15,7 @@
 ;; Core parsing/AST packages
 
 (package
-  (name lib_parsing)
+  (name parsing_core)
   (version 1.14.0)
   (synopsis "Small library to help writing parsers")
   (description "\
@@ -33,7 +33,7 @@ parsers, especially ocamlyacc/menhir based parsers.
   )
 )
 
-(package (name lib_parsing_tree_sitter)
+(package (name parsing_tree_sitter)
   (synopsis "Tree-sitter parsing utilities")
   (description "Utilities for using tree-sitter parsers from OCaml.")
 )
@@ -80,13 +80,13 @@ the other programming languages supported by atdgen."
     (ocaml (>= 4.13.0))
     (dune (>= 3.2.0))
     (commons (>= 1.8.0))
-    (lib_parsing (>= 1.5.5))
+    (parsing_core (>= 1.5.5))
     (profiling (>= 1.5.5))
     (atdgen (>= 2.8.0))
   )
 )
 
-(package (name lib_languages)
+(package (name languages)
   (synopsis "Per-language LSP helpers shared type")
   (description "Shared LSP_lang.t type and Language.ml for per-language support")
 )

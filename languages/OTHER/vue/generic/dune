@@ -6,7 +6,7 @@
    commons
    ast_generic
    semgrep.core ; just for Range
-   lib_parsing_tree_sitter
+   parsing_tree_sitter
    tree-sitter-lang.vue
  )
  (preprocess (pps ppx_deriving.show))

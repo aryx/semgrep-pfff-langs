@@ -5,7 +5,7 @@
  (libraries
    ast_generic ; is_metavar_name
    commons
-   lib_parsing
+   parsing_core
    parser_cpp.ast ; reuse operators
  )
  (preprocess (pps ppx_deriving.show))

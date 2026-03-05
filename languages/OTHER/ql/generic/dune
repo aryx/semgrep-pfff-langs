@@ -4,7 +4,7 @@
  (wrapped false)
  (libraries
    commons
-   lib_parsing
+   parsing_core
    parser_ql.ast
    tree-sitter-lang.ql
    ast_generic

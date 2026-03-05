@@ -5,7 +5,7 @@
  (libraries
 
    commons
-   lib_parsing
+   parsing_core
    parser_javascript.menhir
    parser_json.ast
 

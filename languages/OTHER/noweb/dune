@@ -6,7 +6,7 @@
    ; semgrep deps
    commons profiling
    commons2_
-   lib_parsing
+   parsing_core
    ast_fuzzy
  )
  (preprocess (pps ppx_deriving.show profiling.ppx))

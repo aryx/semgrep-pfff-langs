@@ -3,7 +3,7 @@
  (wrapped false)
  (libraries
    commons
-   lib_parsing
+   parsing_core
  )
  (preprocess
    (pps

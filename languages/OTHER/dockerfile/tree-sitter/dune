@@ -4,7 +4,7 @@
  (wrapped false)
  (libraries
    commons
-   lib_parsing
+   parsing_core
    parser_dockerfile.ast
    tree-sitter-lang.dockerfile
    parser_bash.tree_sitter

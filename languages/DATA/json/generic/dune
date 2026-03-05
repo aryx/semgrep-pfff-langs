@@ -4,7 +4,7 @@
  (wrapped false)
  (libraries
    commons
-   lib_parsing
+   parsing_core
    ast_generic
    parser_javascript.ast
    parser_javascript.ast_generic

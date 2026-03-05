@@ -5,7 +5,7 @@
  (libraries
    commons
    commons2_
-   lib_parsing
+   parsing_core
    codemap_parser_html.ast
  )
  (preprocess (pps ppx_deriving.show profiling.ppx))

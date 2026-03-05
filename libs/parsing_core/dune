@@ -1,6 +1,6 @@
 (library
- (public_name lib_parsing)
- (name lib_parsing)
+ (public_name parsing_core)
+ (name parsing_core)
  (wrapped false)
  (libraries
    fpath

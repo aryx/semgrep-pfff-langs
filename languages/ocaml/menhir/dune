@@ -5,7 +5,7 @@
  (libraries
    menhirLib
    commons
-   lib_parsing
+   parsing_core
    ast_fuzzy
    parser_ocaml.ast
  )

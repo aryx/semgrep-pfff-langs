@@ -4,7 +4,7 @@
  (wrapped false)
  (libraries
    commons
-   lib_parsing lib_parsing_tree_sitter
+   parsing_core parsing_tree_sitter
    parser_bash.ast
    tree-sitter-lang.bash
    ast_generic; TODO why not return AST_bash?

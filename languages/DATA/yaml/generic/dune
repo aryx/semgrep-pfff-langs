@@ -6,7 +6,7 @@
    yaml
 
    commons
-   lib_parsing
+   parsing_core
    ast_generic
    parser_yaml.ast
    parser_yaml.parser

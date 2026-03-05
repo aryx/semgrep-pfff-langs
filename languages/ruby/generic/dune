@@ -4,7 +4,7 @@
  (wrapped false)
  (libraries
    commons
-   lib_parsing
+   parsing_core
    parser_ruby.ast
    tree-sitter-lang.ruby
    ast_generic

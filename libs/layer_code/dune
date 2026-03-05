@@ -7,7 +7,7 @@
     ; pfff deps
     commons
     commons2_
-    lib_parsing
+    parsing_core
  )
 )
 

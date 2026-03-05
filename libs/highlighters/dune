@@ -9,7 +9,7 @@
 
    ; semgrep deps
    commons
-   lib_parsing
+   parsing_core
    ast_fuzzy
    ast_generic ; now in semgrep
 

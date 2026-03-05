@@ -4,7 +4,7 @@
  (wrapped false)
  (libraries
    commons
-   lib_parsing
+   parsing_core
    ast_generic
  )
  (preprocess (pps ppx_deriving.show))
