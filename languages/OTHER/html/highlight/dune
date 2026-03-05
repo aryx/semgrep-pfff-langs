@@ -1,0 +1,11 @@
+(library
+ (public_name codemap_parser_html.highlight)
+ (name codemap_parser_html_highlight)
+ (wrapped false)
+ (libraries
+   commons
+   highlight_code
+   codemap_parser_html.menhir
+ )
+ (preprocess (pps ppx_deriving.show))
+)

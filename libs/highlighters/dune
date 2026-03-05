@@ -1,3 +1,6 @@
+; Dispatch layer: Parse_and_highlight + Parse_languages
+; aggregates all per-language highlighters
+
 (library
  (public_name highlighters)
  (name highlighters)
@@ -10,18 +13,22 @@
    ; semgrep deps
    commons
    parsing_core
-   ast_fuzzy
-   ast_generic ; now in semgrep
+   ast_generic
+   highlight_code
 
-   ; lang-specific
-   parser_cpp.menhir parser_cpp.ast_generic
-   parser_go.menhir parser_go.ast_generic
-   parser_java.menhir parser_java.ast_generic
-   parser_python.menhir parser_python.ast_generic
-   parser_ocaml.menhir parser_ocaml.ast_generic parser_ocaml.tree_sitter
-   parser_php.menhir parser_php.ast_generic
-   parser_javascript.menhir parser_javascript.ast_generic
-   parser_scala.recursive_descent parser_scala.ast_generic
+   ; per-language highlighters
+   parser_cpp.highlight
+   parser_go.highlight
+   parser_java.highlight
+   parser_javascript.highlight
+   parser_ocaml.highlight
+   parser_php.highlight
+   parser_python.highlight
+   parser_scala.highlight
+   codemap_parser_html.highlight
+   parser_nw.highlight
+
+   ; tree-sitter parsers (for Parse_languages.ml)
    parser_ruby.tree_sitter parser_ruby.ast_generic
    parser_lisp.recursive_descent
    parser_rust.ast_generic
@@ -31,15 +38,10 @@
    parser_lisp.tree_sitter
    parser_yaml.ast_generic
 
-   codemap_parser_html.menhir
-   parser_nw
+   ; for generic name resolver
+   pfff_lang_GENERIC_naming
 
-   highlight_code
-   ; for highlight_php
-   database_code
-
-   ; generic!
-   pfff_lang_GENERIC_naming ; for generic name resolver
+   parsing_tree_sitter
  )
  (preprocess (pps ppx_deriving.show))
 )

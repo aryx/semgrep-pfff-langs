@@ -14,4 +14,4 @@ val visit_for_highlight:
   tag_hook:(Tok.t -> Highlight_code.category -> unit) ->
   Highlight_code.highlighter_preferences ->
   Fpath.t ->
-  AST_generic.program * (Tok.t * Parse_languages.origin_info) list -> unit
+  AST_generic.program * (Tok.t * Origin_info.t) list -> unit

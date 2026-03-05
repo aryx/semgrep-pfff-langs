@@ -1,0 +1,13 @@
+(library
+ (public_name parser_nw.highlight)
+ (name parser_nw_highlight)
+ (wrapped false)
+ (libraries
+   commons
+   parsing_core
+   ast_fuzzy
+   highlight_code
+   parser_nw
+ )
+ (preprocess (pps ppx_deriving.show))
+)

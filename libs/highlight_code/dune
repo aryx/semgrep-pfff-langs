@@ -1,11 +1,13 @@
-; this used to be in pfff/h-program-lang
+; Highlight categories, colors, and AST-generic highlighter
 
 (library
  (public_name highlight_code)
  (wrapped false)
  (libraries
-    ; pfff deps
     commons
-    graph_code ; but really just entity_code
+    parsing_core
+    graph_code ; for Entity_code
+    ast_generic ; for Highlight_AST
  )
+ (preprocess (pps ppx_deriving.show))
 )

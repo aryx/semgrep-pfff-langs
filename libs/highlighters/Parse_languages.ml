@@ -25,15 +25,7 @@ module H = Parse_tree_sitter_helpers
 (*****************************************************************************)
 (* Types *)
 (*****************************************************************************)
-(* TODO: this should probably be in a different file *)
-type origin_info =
-  (* those were extracted from the tree-sitter Concrete Syntax Tree (CST) *)
-  | InCST
-  (* those are all the ranges in the file that do not correspond to
-   * an info in the CST (e.g., space, comments), that is the
-   * tokens from the extra: field in tree-sitter grammars 
-   *)
-  | Extra
+type origin_info = Origin_info.t = InCST | Extra
 
 (*****************************************************************************)
 (* Helpers *)

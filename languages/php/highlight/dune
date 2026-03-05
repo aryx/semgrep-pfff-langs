@@ -1,0 +1,12 @@
+(library
+ (public_name parser_php.highlight)
+ (name parser_php_highlight)
+ (wrapped false)
+ (libraries
+   commons
+   highlight_code
+   database_code
+   parser_php.menhir parser_php.ast_generic
+ )
+ (preprocess (pps ppx_deriving.show))
+)

@@ -1,0 +1,11 @@
+(library
+ (public_name parser_cpp.highlight)
+ (name parser_cpp_highlight)
+ (wrapped false)
+ (libraries
+   commons
+   highlight_code
+   parser_cpp.menhir parser_cpp.ast_generic
+ )
+ (preprocess (pps ppx_deriving.show))
+)

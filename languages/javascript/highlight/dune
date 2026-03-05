@@ -1,0 +1,13 @@
+(library
+ (public_name parser_javascript.highlight)
+ (name parser_javascript_highlight)
+ (wrapped false)
+ (libraries
+   commons
+   highlight_code
+   languages ; for Lang
+   pfff_lang_GENERIC_naming ; for Naming_AST
+   parser_javascript.menhir parser_javascript.ast_generic
+ )
+ (preprocess (pps ppx_deriving.show))
+)

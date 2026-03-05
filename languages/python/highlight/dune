@@ -1,0 +1,13 @@
+(library
+ (public_name parser_python.highlight)
+ (name parser_python_highlight)
+ (wrapped false)
+ (libraries
+   commons
+   highlight_code
+   languages ; for Lang
+   pfff_lang_GENERIC_naming ; for Naming_AST
+   parser_python.menhir parser_python.ast_generic
+ )
+ (preprocess (pps ppx_deriving.show))
+)

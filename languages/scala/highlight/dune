@@ -1,0 +1,13 @@
+(library
+ (public_name parser_scala.highlight)
+ (name parser_scala_highlight)
+ (wrapped false)
+ (libraries
+   commons
+   highlight_code
+   languages ; for Lang
+   pfff_lang_GENERIC_naming ; for Naming_AST
+   parser_scala.recursive_descent parser_scala.ast_generic
+ )
+ (preprocess (pps ppx_deriving.show))
+)

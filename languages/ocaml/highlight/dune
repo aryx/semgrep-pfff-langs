@@ -1,0 +1,13 @@
+(library
+ (public_name parser_ocaml.highlight)
+ (name parser_ocaml_highlight)
+ (wrapped false)
+ (libraries
+   commons
+   highlight_code
+   languages ; for Lang
+   pfff_lang_GENERIC_naming ; for Naming_AST
+   parser_ocaml.menhir parser_ocaml.ast_generic parser_ocaml.tree_sitter
+ )
+ (preprocess (pps ppx_deriving.show))
+)

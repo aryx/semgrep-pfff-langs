@@ -1,0 +1,11 @@
+(library
+ (public_name parser_java.highlight)
+ (name parser_java_highlight)
+ (wrapped false)
+ (libraries
+   commons
+   highlight_code
+   parser_java.menhir parser_java.ast_generic
+ )
+ (preprocess (pps ppx_deriving.show))
+)

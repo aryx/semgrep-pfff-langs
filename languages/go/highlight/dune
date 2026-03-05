@@ -1,0 +1,11 @@
+(library
+ (public_name parser_go.highlight)
+ (name parser_go_highlight)
+ (wrapped false)
+ (libraries
+   commons
+   highlight_code
+   parser_go.menhir parser_go.ast_generic
+ )
+ (preprocess (pps ppx_deriving.show))
+)

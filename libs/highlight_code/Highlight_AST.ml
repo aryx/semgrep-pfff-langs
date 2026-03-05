@@ -577,8 +577,8 @@ let visit_for_highlight ~tag_hook _prefs _file (ast, tokens) =
   visit_program (already_tagged, tag_hook) ast;
   tokens |> List.iter (fun (tk, origin) ->
     match origin with
-    | Parse_languages.Extra -> tag_hook tk Comment
-    | Parse_languages.InCST ->
+    | Origin_info.Extra -> tag_hook tk Comment
+    | Origin_info.InCST ->
       let str = Tok.content_of_tok tk in
       (match str with
       | "[" | "]" -> tag_hook tk Punctuation
