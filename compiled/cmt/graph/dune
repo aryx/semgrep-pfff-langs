@@ -3,7 +3,6 @@
  (name parser_cmt_graph)
  (wrapped false)
  (libraries
-   ounit2
    compiler-libs
 
    commons commons2_
