@@ -1,0 +1,13 @@
+(library
+ (public_name parser_lisp.graph)
+ (name parser_lisp_graph)
+ (wrapped false)
+ (libraries
+   commons profiling process_limits
+   commons2_
+   parsing_core
+   graph_code
+   parser_lisp.ast parser_lisp.recursive_descent
+ )
+ (preprocess (pps ppx_deriving.show profiling.ppx))
+)

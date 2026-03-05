@@ -1,0 +1,13 @@
+(library
+ (public_name parser_php.graph)
+ (name parser_php_graph)
+ (wrapped false)
+ (libraries
+   commons profiling process_limits
+   commons2_
+   parsing_core
+   graph_code
+   parser_php.ast parser_php.menhir
+ )
+ (preprocess (pps ppx_deriving.show profiling.ppx))
+)

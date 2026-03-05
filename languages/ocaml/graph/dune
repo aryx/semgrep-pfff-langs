@@ -1,0 +1,13 @@
+(library
+ (public_name parser_ocaml.graph)
+ (name parser_ocaml_graph)
+ (wrapped false)
+ (libraries
+   commons profiling
+   commons2_
+   parsing_core
+   graph_code
+   parser_ocaml.ast parser_ocaml.menhir
+ )
+ (preprocess (pps ppx_deriving.show profiling.ppx))
+)

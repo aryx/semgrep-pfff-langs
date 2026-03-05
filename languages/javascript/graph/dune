@@ -1,0 +1,14 @@
+(library
+ (public_name parser_javascript.graph)
+ (name parser_javascript_graph)
+ (wrapped false)
+ (libraries
+   commons profiling process_limits
+   commons2_
+   parsing_core
+   ast_fuzzy
+   graph_code
+   parser_javascript.ast parser_javascript.menhir
+ )
+ (preprocess (pps ppx_deriving.show profiling.ppx))
+)
