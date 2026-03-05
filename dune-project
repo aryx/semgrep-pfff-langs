@@ -144,6 +144,13 @@ the other programming languages supported by atdgen."
   (description "Semantic syntax highlighters for many programming languages.")
 )
 
+;; Compiled/bytecode parsers
+
+(package (name parser_cmt)
+  (synopsis "OCaml .cmt file parser and analyzer")
+  (description "Parser, dependency graph builder, and file finder for OCaml .cmt compiler output.")
+)
+
 ;; Per-language parser packages (sorted alphabetically)
 
 (package (name parser_bash)

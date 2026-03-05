@@ -1,0 +1,10 @@
+(library
+ (public_name parser_cmt.finder)
+ (name parser_cmt_finder)
+ (wrapped false)
+ (libraries
+   fpath
+   commons2_
+ )
+ (preprocess (pps ppx_deriving.show profiling.ppx))
+)

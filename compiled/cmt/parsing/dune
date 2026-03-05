@@ -1,0 +1,10 @@
+(library
+ (public_name parser_cmt)
+ (name parser_cmt)
+ (wrapped false)
+ (libraries
+   commons
+   compiler-libs
+ )
+ (preprocess (pps ppx_deriving.show profiling.ppx))
+)

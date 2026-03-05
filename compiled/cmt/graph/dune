@@ -1,0 +1,16 @@
+(library
+ (public_name parser_cmt.graph)
+ (name parser_cmt_graph)
+ (wrapped false)
+ (libraries
+   ounit2
+   compiler-libs
+
+   commons commons2_
+   parsing_core
+   graph_code
+   parser_ocaml.ast
+
+   parser_cmt
+ )
+)
