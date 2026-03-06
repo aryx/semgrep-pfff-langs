@@ -414,7 +414,7 @@ let matching_use_categ_kind categ kind =
  *)
 let entity_and_highlight_category_correpondance entity categ =
   let entity_kind_use =
-    Common2.some (entity_kind_of_highlight_category_use categ)
+    Option.get (entity_kind_of_highlight_category_use categ)
   in
   entity.e_kind =*= entity_kind_use
 
