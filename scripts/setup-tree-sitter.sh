@@ -7,7 +7,7 @@
 #   - a system-installed tree-sitter library (detected via pkg-config), or
 #   - a locally built tree-sitter library (downloaded and built from source).
 #
-# This script is adapted from libs/ocaml-tree-sitter-core/configure but lives
+# This script is adapted from parsing_infra/ocaml-tree-sitter-core/configure but lives
 # outside that submodule so it can add system tree-sitter auto-detection.
 # The submodule's configure is not called; we replicate its output format here.
 #
@@ -79,7 +79,7 @@ else
   fi
   # Resolve paths relative to this script's directory (inside semgrep-pfff-langs/)
   _script_dir="$(cd "$(dirname "$0")" && pwd)"
-  _ts_core="$_script_dir/../libs/ocaml-tree-sitter-core"
+  _ts_core="$_script_dir/../parsing_infra/ocaml-tree-sitter-core"
   (cd "$_ts_core" && ./scripts/install-tree-sitter-lib)
   local_prefix="$(cd "$_ts_core" && pwd)/tree-sitter"
   write_config "$local_prefix/include" "$local_prefix/lib"

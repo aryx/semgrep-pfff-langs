@@ -109,6 +109,6 @@ url = https://github.com/semgrep/semgrep-toml.git
 [submodule "languages/haskell/tree-sitter/semgrep-haskell"]
 	path = languages/haskell/tree-sitter/semgrep-haskell
 	url = https://github.com/semgrep/semgrep-haskell
-[submodule "libs/ocaml-tree-sitter-core"]
-	path = libs/ocaml-tree-sitter-core
+[submodule "parsing_infra/ocaml-tree-sitter-core"]
+	path = parsing_infra/ocaml-tree-sitter-core
 	url = https://github.com/returntocorp/ocaml-tree-sitter-core.git

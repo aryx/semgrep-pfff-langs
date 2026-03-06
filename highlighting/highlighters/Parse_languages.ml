@@ -30,7 +30,7 @@ type origin_info = Origin_info.t = InCST | Extra
 (*****************************************************************************)
 (* Helpers *)
 (*****************************************************************************)
-(* mostly a copy-paste of semgrep/libs/ast_generic/Raw_tree.visit *)
+(* mostly a copy-paste of ast/ast_generic/Raw_tree.visit *)
 let visit ~v_token ~v_any x =
   let rec aux = function
   | R.Token tok -> v_token tok

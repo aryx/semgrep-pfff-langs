@@ -2201,7 +2201,7 @@ and raw_tree = (any Raw_tree.t[@name "raw_tree_t"])
      * otherwise be assigned a visitor method named `visit_t`.
      *
      * To view the generated source, build, navigate to
-     * `_build/default/libs/ast_generic/`, and then run the following command:
+     * `_build/default/ast/ast_generic/`, and then run the following command:
      *
      * ocamlc -stop-after parsing -dsource AST_generic.pp.ml
      * *)
