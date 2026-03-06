@@ -14,6 +14,11 @@
 
 ;; Core parsing/AST packages
 
+(package (name location)
+  (synopsis "Source code location types (Pos, Loc, Tok)")
+  (description "Position, location, and token types for representing source code positions.")
+)
+
 (package
   (name parsing_core)
   (version 1.14.0)

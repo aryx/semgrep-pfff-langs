@@ -1,21 +1,15 @@
 (library
- (public_name parsing_core)
- (name parsing_core)
+ (public_name location)
+ (name location)
  (wrapped false)
  (libraries
    fpath
    sexplib
-   paths
-   git_wrapper
-
    commons
-   profiling
-   location
  )
  (inline_tests)
  (preprocess
    (pps
-     profiling.ppx
      ppx_deriving.show
      ppx_deriving.ord
      ppx_deriving.eq
