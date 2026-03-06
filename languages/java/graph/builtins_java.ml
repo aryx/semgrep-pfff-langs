@@ -32,13 +32,13 @@ let gen_package_file_with_class_defs pr xs g =
     let str = Graph_code.shortname_of_node current in
     match kind with
     | E.Class ->
-        pr (spf "%sclass %s {" (Common2_.n_space depth) str);
+        pr (spf "%sclass %s {" (Common2.n_space depth) str);
         List.iter (aux (depth + 2)) (G.children current g);
-        pr (spf "%s}" (Common2_.n_space depth))
+        pr (spf "%s}" (Common2.n_space depth))
     | E.File -> List.iter (aux depth) (G.children current g)
     | E.Constant
     | E.Field ->
-        pr (spf "%sint %s;" (Common2_.n_space depth) str)
+        pr (spf "%sint %s;" (Common2.n_space depth) str)
     | E.Method
     | E.ClassConstant ->
         ()

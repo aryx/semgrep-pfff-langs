@@ -1,8 +1,8 @@
 
 val build:
   Fpath.t (* root *) ->
-  cmt_files:Common2_.filename list -> 
-  ml_files:Common2_.filename list ->
+  cmt_files:Common2.filename list -> 
+  ml_files:Common2.filename list ->
   Graph_code.t
 
 (* for syncweb's indexer *)

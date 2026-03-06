@@ -1,5 +1,5 @@
 (* stdlib.js *)
-val path_stdlib : Common2_.filename
+val path_stdlib : Common2.filename
 
 (* generate stdlib.js *)
-val extract_from_sources : Common2_.filename list -> Common2_.filename (* a dir *) -> unit
+val extract_from_sources : Common2.filename list -> Common2.filename (* a dir *) -> unit

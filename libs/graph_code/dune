@@ -6,7 +6,6 @@
    ocamlgraph
 
    commons
-   commons2_
    parsing_core ; store position information in the graph and tokens for stats
    parallelism
  )

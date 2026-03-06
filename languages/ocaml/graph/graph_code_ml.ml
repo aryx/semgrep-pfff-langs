@@ -92,7 +92,7 @@ let extract_defs ~g ~duplicate_modules ~ast ~readable ~file =
   g |> G.add_node (!!readable, E.File);
 
   match () with
-  | _ when List.mem m (Common2_.keys duplicate_modules) -> (
+  | _ when List.mem m (Common2.keys duplicate_modules) -> (
       (* we could attach to two parents when we are almost sure that
        * nobody will reference this module (e.g. because it's an
        * entry point), but then all the uses in those files would

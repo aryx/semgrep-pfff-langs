@@ -94,7 +94,7 @@ type env = {
    * We use the Hashtbl.find_all property of the hashtbl below.
    * The pair of filenames is readable * fullpath.
    *)
-  dupes : (Graph_code.node, Common2_.filename * Common2_.filename) Hashtbl.t;
+  dupes : (Graph_code.node, Common2.filename * Common2.filename) Hashtbl.t;
   (* to optimize things, to avoid calling G.Parent *)
   not_found : (Graph_code.node, bool) Hashtbl.t;
   (* in many files like scripts/ people reuse the same function name. This
@@ -112,16 +112,16 @@ type env = {
   stats : Graph_code.statistics;
   log : string -> unit;
   pr2_and_log : string -> unit;
-  is_skip_error_file : Common2_.filename (* readable *) -> bool;
+  is_skip_error_file : Common2.filename (* readable *) -> bool;
   (* to print file paths in readable format or absolute *)
-  path : Common2_.filename -> string;
+  path : Common2.filename -> string;
 }
 
 and phase = Defs | Inheritance | Uses
 
 and current = {
   node : Graph_code.node;
-  readable : Common2_.filename;
+  readable : Common2.filename;
   (* namespace *)
   qualifier : Ast_php.qualified_ident;
   import_rules : (string * Ast_php.qualified_ident) list;
@@ -139,7 +139,7 @@ and resolved_name = R of string (* fully resolved name, namespace-wise *)
 (*****************************************************************************)
 (* Helpers *)
 (*****************************************************************************)
-let ( ==~ ) = Common2_.( ==~ )
+let ( ==~ ) = Common2.( ==~ )
 
 let parse env file =
   try
@@ -1139,7 +1139,7 @@ let build ?(verbose = true)
                  (* will modify env.dupes instead of raise Graph_code.NodeAlreadyPresent *)
                  extract_defs_uses { env with phase = Defs } ast readable));
   Profiling.profile_code "Graph_php.step dupes" (fun () ->
-      Common2_.hkeys env.dupes
+      Common2.hkeys env.dupes
       |> List.filter (fun (_, kind) ->
              match kind with
              | E.ClassConstant

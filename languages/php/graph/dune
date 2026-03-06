@@ -4,7 +4,6 @@
  (wrapped false)
  (libraries
    commons profiling process_limits
-   commons2_
    parsing_core
    graph_code
    parser_php.ast parser_php.menhir

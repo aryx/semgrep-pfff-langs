@@ -5,7 +5,6 @@
  (libraries
    ; semgrep deps
    commons profiling
-   commons2_
    parsing_core
    ast_fuzzy
  )

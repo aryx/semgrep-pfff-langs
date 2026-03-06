@@ -152,7 +152,7 @@ let rec classname_and_info_of_typ t =
 
 (* quite similar to create_intermediate_directories_if_not_present *)
 let create_intermediate_packages_if_not_present g root xs =
-  let dirs = Common2_.inits xs |> List.map str_of_qualified_ident in
+  let dirs = Common2.inits xs |> List.map str_of_qualified_ident in
   let dirs =
     match dirs with
     | "" :: xs -> xs
@@ -858,7 +858,7 @@ let build ?(verbose = true) ?(only_defs = false) (root : Fpath.t) files =
   let g = G.create () in
   G.create_initial_hierarchy g;
 
-  let lookup_fails = Common2_.hash_with_default (fun () -> 0) in
+  let lookup_fails = Common2.hash_with_default (fun () -> 0) in
 
   (* step1: creating the nodes and 'Has' edges, the defs *)
   if verbose then UCommon.pr2 "\nstep1: extract defs";

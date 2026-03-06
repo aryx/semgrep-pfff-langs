@@ -9,7 +9,6 @@
    git_wrapper
 
    commons
-   commons2
    profiling
  )
  (inline_tests)

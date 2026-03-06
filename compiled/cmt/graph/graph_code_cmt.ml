@@ -62,13 +62,13 @@ type env = {
   phase: phase;
 
   (* the .cmt, used mostly for error reporting, in readable path format *)
-  cmt_file: Common2_.filename;
+  cmt_file: Common2.filename;
   (* the file the .cmt is supposed to come from, in readable path format *)
-  ml_file: Common2_.filename;
+  ml_file: Common2.filename;
   (* update: readable means relative to project root dir and without the
    * dune special encoding (no _build/default or .pp or .objs in it) *)
 
-  source_finder: string (* basename *) -> Common2_.filename list;
+  source_finder: string (* basename *) -> Common2.filename list;
   
   current: Graph_code.node;
   current_entity: name;
@@ -115,7 +115,7 @@ let hook_def_node = ref (fun _node _g -> ())
 
 (* because we use a 2 passes process (should do like in PHP all in 1 pass?) *)
 let _hmemo = Hashtbl.create 101
-let parse (file : Common2_.filename) : Cmt_format.cmt_infos  =
+let parse (file : Common2.filename) : Cmt_format.cmt_infos  =
   Common.memoized _hmemo file (fun () ->
     try 
       Cmt_format.read_cmt file

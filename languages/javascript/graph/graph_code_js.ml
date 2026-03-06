@@ -61,7 +61,7 @@ type env = {
   phase: phase;
 
   current: Graph_code.node;
-  file_readable: Common2_.filename;
+  file_readable: Common2.filename;
   root: Fpath.t; (* to find node_modules/ *)
 
   (* imports of external entities; also abused to create
@@ -77,14 +77,14 @@ type env = {
   vars: (string, bool) Hashtbl.t;
 
   (* less: use it? could use to check if the import match the exports *)
-  exports: (Common2_.filename, string list) Hashtbl.t;
+  exports: (Common2.filename, string list) Hashtbl.t;
 
   (* error reporting *)
   dupes: (Graph_code.node, bool) Hashtbl.t;
 
   (* this is for the abstract interpreter *)
   db: (qualified_name, Ast_js.var) Hashtbl.t;
-  asts: (Common2_.filename (* readable *)* Ast_js.a_program (* resolved*)) list ref;
+  asts: (Common2.filename (* readable *)* Ast_js.a_program (* resolved*)) list ref;
 
   log: string -> unit;
   pr2_and_log: string -> unit;
@@ -775,7 +775,7 @@ let build_gen ?(verbose=false) (root : Fpath.t) files =
   G.remove_empty_nodes g [G.not_found; G.dupe; G.pb];
 
   (* less: lookup failures summary *)
-  let xs = Common2_.hkeys hstat_lookup_failures in
+  let xs = Common2.hkeys hstat_lookup_failures in
   let counts =
     xs |> List.map (fun (x)->
       G.string_of_node x,

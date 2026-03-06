@@ -45,7 +45,7 @@ let find_cmt_files_of_dir_or_files (xs : Fpath.t list) : Fpath.t list =
        |> List.iter (fun file ->
               let d, b, e = Filename_.dbe_of_filename !!file in
               Hashtbl_.push hfiles (d, b) e);
-       Common2_.hkeys hfiles
+       Common2.hkeys hfiles
        |> List_.map (fun (d, b) ->
               let xs = Hashtbl_.get_stack hfiles (d, b) in
               match xs with

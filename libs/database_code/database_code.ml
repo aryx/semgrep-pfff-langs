@@ -320,7 +320,7 @@ let load_database file =
           UChan.with_open_in (Fpath.v file) J.json_of_chan)
     in
     database_of_json json
-  else Common2_.get_value file
+  else Common2.get_value file
 [@@profiling]
 
 (* We allow to save in JSON format because it may be useful to let
@@ -334,7 +334,7 @@ let save_database database file =
     database |> json_of_database
     |> J.string_of_json ~compact:false ~recursive:false ~allow_nan:true
     |> UFile.Legacy.write_file ~file
-  else Common2_.write_value database file
+  else Common2.write_value database file
 
 (*****************************************************************************)
 (* Entities categories *)
@@ -414,7 +414,7 @@ let matching_use_categ_kind categ kind =
  *)
 let entity_and_highlight_category_correpondance entity categ =
   let entity_kind_use =
-    Common2_.some (entity_kind_of_highlight_category_use categ)
+    Common2.some (entity_kind_of_highlight_category_use categ)
   in
   entity.e_kind =*= entity_kind_use
 
@@ -439,14 +439,14 @@ let entity_and_highlight_category_correpondance entity categ =
  *)
 let alldirs_and_parent_dirs_of_relative_dirs dirs =
   dirs
-  |> List.map Common2_.inits_of_relative_dir
-  |> List.flatten |> Common2_.uniq_eff
+  |> List.map Common2.inits_of_relative_dir
+  |> List.flatten |> Common2.uniq_eff
 
 let merge_databases db1 db2 =
   (* assert same root ?then can just add the fields *)
   if db1.root <> db2.root then (
     UCommon.pr2 (spf "merge_database: the root differs, %s != %s" db1.root db2.root);
-    if not (Common2_.y_or_no "Continue ?") then failwith "ok we stop");
+    if not (Common2.y_or_no "Continue ?") then failwith "ok we stop");
 
   (* entities now contain references to other entities through
    * the index to the entities array. So concatenating 2 array
@@ -470,7 +470,7 @@ let merge_databases db1 db2 =
     root = db1.root;
     dirs =
       db1.dirs @ db2.dirs |> Assoc.group_assoc_bykey_eff
-      |> List.map (fun (file, xs) -> (file, Common2_.sum xs));
+      |> List.map (fun (file, xs) -> (file, Common2.sum xs));
     files = db1.files @ db2.files;
     (* should ensure exclusive ? *)
     entities = Array.append db1.entities db2_entities_adjusted;
@@ -537,7 +537,7 @@ let mk_multi_dirs_entity name dirs_entities =
 let multi_dirs_entities_of_dirs es =
   let h = Hashtbl.create 101 in
   es |> List.iter (fun e -> Hashtbl.add h e.e_name e);
-  let keys = Common2_.hkeys h in
+  let keys = Common2.hkeys h in
   keys
   |> List_.filter_map (fun k ->
          let vs = Hashtbl.find_all h k in
@@ -545,7 +545,7 @@ let multi_dirs_entities_of_dirs es =
 
 let files_and_dirs_database_from_files ~root files =
   (* quite similar to what we first do in a database_light_xxx.ml *)
-  let dirs = files |> List.map Filename.dirname |> Common2_.uniq_eff in
+  let dirs = files |> List.map Filename.dirname |> Common2.uniq_eff in
   let dirs = dirs |> List.map (fun s -> (Filename_.readable ~root:(root) (s))) in
   let dirs = alldirs_and_parent_dirs_of_relative_dirs dirs in
 
@@ -609,7 +609,7 @@ let files_and_dirs_and_sorted_entities_for_completion
  *)
 let adjust_method_or_field_external_users ~verbose entities =
   (* phase1: collect all method counts *)
-  let h_method_def_count = Common2_.hash_with_default (fun () -> 0) in
+  let h_method_def_count = Common2.hash_with_default (fun () -> 0) in
 
   entities
   |> Array.iter (fun e ->
@@ -617,7 +617,7 @@ let adjust_method_or_field_external_users ~verbose entities =
          | Method
          | Field ->
              let k = e.e_name in
-             h_method_def_count#update k Common2_.add1
+             h_method_def_count#update k Common2.add1
          | _ -> ());
 
   (* phase2: adjust *)

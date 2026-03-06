@@ -6,7 +6,6 @@
  (libraries
     ; pfff deps
     commons
-    commons2_
     parsing_core
  )
 )

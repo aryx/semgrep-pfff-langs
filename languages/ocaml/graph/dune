@@ -4,7 +4,6 @@
  (wrapped false)
  (libraries
    commons profiling
-   commons2_
    parsing_core
    graph_code
    parser_ocaml.ast parser_ocaml.menhir

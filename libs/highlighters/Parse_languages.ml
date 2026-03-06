@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the file
  * license.txt for more details.
 *)
-open Common2_ (* <=> *)
+open Common2 (* <=> *)
 open Fpath_.Operators
 module R = Tree_sitter_run.Raw_tree
 module H = Parse_tree_sitter_helpers
