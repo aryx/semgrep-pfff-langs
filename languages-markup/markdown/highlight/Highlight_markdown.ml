@@ -51,10 +51,18 @@ let rec visit_inlines ~tag inlines =
     | Bold (open_tok, inner, close_tok) ->
       tag open_tok Punctuation;
       tag close_tok Punctuation;
+      inner |> List.iter (fun inl ->
+        match inl with
+        | Text (_, tok) -> tag tok EmbededHtml
+        | _ -> ());
       visit_inlines ~tag inner
     | Italic (open_tok, inner, close_tok) ->
       tag open_tok Punctuation;
       tag close_tok Punctuation;
+      inner |> List.iter (fun inl ->
+        match inl with
+        | Text (_, tok) -> tag tok EmbededStyle
+        | _ -> ());
       visit_inlines ~tag inner
     | Link ((open_bracket, text_inner, close_bracket),
             (open_paren, (_url_s, url_tok), close_paren)) ->
