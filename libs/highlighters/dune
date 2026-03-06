@@ -41,7 +41,7 @@
    parser_zig.menhir parser_zig.ast_generic
 
    ; for generic name resolver
-   pfff_lang_GENERIC_naming
+   naming_generic
 
    parsing_tree_sitter
  )

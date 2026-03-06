@@ -1,6 +1,6 @@
 (library
- (public_name pfff_lang_GENERIC_naming)
- (name pfff_lang_GENERIC_naming)
+ (public_name naming_generic)
+ (name naming_generic)
  (wrapped false)
  (libraries
    commons

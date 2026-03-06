@@ -91,7 +91,7 @@ the other programming languages supported by atdgen."
   (description "Shared LSP_lang.t type and Language.ml for per-language support")
 )
 
-(package (name pfff_lang_GENERIC_naming)
+(package (name naming_generic)
   (synopsis "Generic naming resolution for AST_generic")
   (description "Name resolution for AST_generic programs.")
 )

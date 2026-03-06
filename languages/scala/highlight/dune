@@ -6,7 +6,7 @@
    commons
    highlight_code
    languages ; for Lang
-   pfff_lang_GENERIC_naming ; for Naming_AST
+   naming_generic ; for Naming_AST
    parser_scala.recursive_descent parser_scala.ast_generic
  )
  (preprocess (pps ppx_deriving.show))
