@@ -248,15 +248,17 @@ let parse_zig (file : Fpath.t) =
 (* We don't have a tree-sitter parser for YAML but use ocaml-yaml lib *)
 let parse_yaml (file : Fpath.t) =
   let ast = Yaml_to_generic.program file in
-  (* TODO: this does not really work yet in codemap; we get weird
-   * '(' and ')' token displayed whereas they are not in the file!
-   * maybe Emma generates them in Yaml_to_generic
-   *)
-  let toks = 
+  let toks =
     AST_generic_helpers.ii_of_any (AST_generic.Pr ast)
     |> List.filter Tok.is_origintok
+    (* Parse_yaml.mk_bracket creates OriginTok with str="("/")" for
+     * sequence/mapping brackets that don't exist in the file.
+     * Filter them out to avoid ghost tokens in the display. *)
+    |> List.filter (fun tok ->
+      let s = Tok.content_of_tok tok in
+      s <> "(" && s <> ")")
     |> List.sort Tok.compare_pos
-    |>  add_extra_infos !!file
+    |> add_extra_infos !!file
   in
   ast, toks
 

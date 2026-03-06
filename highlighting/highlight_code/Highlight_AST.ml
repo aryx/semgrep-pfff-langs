@@ -141,7 +141,7 @@ let visit_program (already_tagged, tag) ast =
   let tag_ids xs categ =
     xs |> List.iter (fun id -> tag_id id categ)
   in
-  let _tag_if_not_tagged ii categ =
+  let tag_if_not_tagged ii categ =
     if not (Hashtbl.mem already_tagged ii)
     then tag ii categ
   in
@@ -365,10 +365,10 @@ let visit_program (already_tagged, tag) ast =
         | Int (_, tk) | Float (_, tk) | Imag (_, tk) | Ratio (_, tk) ->
             tag tk Number
         | Char (_, tk) -> tag tk String
-        | String (l, (_, tk), r) -> 
-              tag l String;
-              tag tk String;
-              tag r String
+        | String (l, (_, tk), r) ->
+              tag_if_not_tagged l String;
+              tag_if_not_tagged tk String;
+              tag_if_not_tagged r String
         | Regexp ((l, (_, tk), r), _opt) -> 
               tag l Regexp;
               tag tk Regexp;
@@ -483,6 +483,18 @@ let visit_program (already_tagged, tag) ast =
               | _ -> ()
             );
             super#visit_expr env x
+
+        (* claude: Tag dict keys (e.g. YAML mappings) as Field *)
+        | Container (Dict, (_, xs, _)) ->
+            xs |> List.iter (fun x ->
+              match x.G.e with
+              | Container (Tuple, (_, ({G.e = L (String (_, (_, tok), _)); _}) :: _, _)) ->
+                  Hashtbl.replace already_tagged tok true;
+                  tag tok (Entity (Field, (Use2 fake_no_use2)))
+              | _ -> ()
+            );
+            super#visit_expr env x
+
         (* coupling: with how record with qualified name in ml_to_generic.ml *)
 (* TODO encoded differently now
         | OtherExpr (OE_RecordFieldName, (Di name)::_) ->
