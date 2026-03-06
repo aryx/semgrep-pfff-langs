@@ -27,6 +27,7 @@
    parser_scala.highlight
    codemap_parser_html.highlight
    parser_nw.highlight
+   parser_markdown.highlight
 
    ; tree-sitter parsers (for Parse_languages.ml)
    parser_ruby.tree_sitter parser_ruby.ast_generic

@@ -1,0 +1,13 @@
+(library
+ (public_name parser_markdown.highlight)
+ (name parser_markdown_highlight)
+ (wrapped false)
+ (libraries
+   commons
+   parsing_core
+   highlight_code
+   parser_markdown.ast
+   parser_markdown.recursive_descent
+ )
+ (preprocess (pps ppx_deriving.show))
+)

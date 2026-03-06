@@ -1,0 +1,10 @@
+(library
+ (public_name parser_markdown.ast)
+ (name parser_markdown_ast)
+ (wrapped false)
+ (libraries
+   commons
+   parsing_core
+ )
+ (preprocess (pps ppx_deriving.show))
+)

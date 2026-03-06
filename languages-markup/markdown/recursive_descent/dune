@@ -1,0 +1,12 @@
+(library
+ (public_name parser_markdown.recursive_descent)
+ (name parser_markdown_recursive_descent)
+ (wrapped false)
+ (libraries
+   commons profiling
+   parsing_core
+   parser_markdown.ast
+ )
+ (preprocess (pps ppx_deriving.show profiling.ppx))
+)
+(ocamllex Lexer_markdown)
