@@ -101,6 +101,11 @@ the other programming languages supported by atdgen."
   (description "Name resolution for AST_generic programs.")
 )
 
+(package (name il_generic)
+  (synopsis "Intermediate Language for static analysis")
+  (description "IL for dataflow and control-flow analysis on AST_generic programs.")
+)
+
 (package (name ojsonnet)
   (synopsis "Jsonnet interpreter in OCaml")
   (description "An OCaml implementation of the Jsonnet data templating language.")
