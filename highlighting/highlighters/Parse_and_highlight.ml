@@ -155,7 +155,9 @@ let dockerfile = {
 
 (* TODO *)
 let markdown = {
-  parse = Parse_markdown.parse;
+  parse = (fun file ->
+    let res = Parse_markdown.parse file in
+    (res.Parsing_result.ast, res.Parsing_result.tokens));
   highlight = (fun ~tag_hook prefs file (ast, toks) ->
     Highlight_markdown.visit_program ~tag_hook prefs file (ast, toks));
   info_of_tok = Token_markdown.info_of_tok;

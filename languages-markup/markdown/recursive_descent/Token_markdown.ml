@@ -19,8 +19,10 @@
 
 type token =
   (* Block-level tokens *)
-  | THeading of int (* level 1-6 *) * string (* rest of line *) * Tok.t
-  | TFenceOpen of string (* fence chars *) * string option (* lang *) * Tok.t
+  (* marker_tok is for "# ", text_tok is for the rest of the line *)
+  | THeading of int (* level 1-6 *) * Tok.t (* marker *) * string * Tok.t (* text *)
+  | TFenceOpen of string (* fence chars *) * Tok.t
+  | TFenceLang of string * Tok.t
   | TFenceClose of Tok.t
   | TCodeLine of string * Tok.t
   | TThematicBreak of Tok.t
@@ -31,6 +33,10 @@ type token =
   | TParagraphLine of string * Tok.t
   | TBlankLine of Tok.t
 
+  (* claude: inline-level tokens derived from the AST by parse_inlines;
+   * added to the token list so the highlighting pipeline can look them up *)
+  | TInlineTok of string * Tok.t
+
   | TEOF of Tok.t
 
 (*****************************************************************************)
@@ -38,8 +44,9 @@ type token =
 (*****************************************************************************)
 
 let info_of_tok = function
-  | THeading (_, _, ii) -> ii
-  | TFenceOpen (_, _, ii) -> ii
+  | THeading (_, ii, _, _) -> ii
+  | TFenceOpen (_, ii) -> ii
+  | TFenceLang (_, ii) -> ii
   | TFenceClose ii -> ii
   | TCodeLine (_, ii) -> ii
   | TThematicBreak ii -> ii
@@ -49,11 +56,13 @@ let info_of_tok = function
   | TIndentedCode (_, ii) -> ii
   | TParagraphLine (_, ii) -> ii
   | TBlankLine ii -> ii
+  | TInlineTok (_, ii) -> ii
   | TEOF ii -> ii
 
 let visitor_info_of_tok f = function
-  | THeading (n, s, ii) -> THeading (n, s, f ii)
-  | TFenceOpen (fence, lang, ii) -> TFenceOpen (fence, lang, f ii)
+  | THeading (n, ii, s, ii2) -> THeading (n, f ii, s, f ii2)
+  | TFenceOpen (s, ii) -> TFenceOpen (s, f ii)
+  | TFenceLang (s, ii) -> TFenceLang (s, f ii)
   | TFenceClose ii -> TFenceClose (f ii)
   | TCodeLine (s, ii) -> TCodeLine (s, f ii)
   | TThematicBreak ii -> TThematicBreak (f ii)
@@ -63,6 +72,7 @@ let visitor_info_of_tok f = function
   | TIndentedCode (s, ii) -> TIndentedCode (s, f ii)
   | TParagraphLine (s, ii) -> TParagraphLine (s, f ii)
   | TBlankLine ii -> TBlankLine (f ii)
+  | TInlineTok (s, ii) -> TInlineTok (s, f ii)
   | TEOF ii -> TEOF (f ii)
 
 let is_eof = function

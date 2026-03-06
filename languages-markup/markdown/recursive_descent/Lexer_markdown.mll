@@ -22,7 +22,8 @@
  * Markdown is fundamentally line-oriented: block structure is determined
  * by line prefixes (headings, list markers, fences, etc.) and inline
  * formatting happens within lines. This lexer handles the block-level
- * tokenization; inline parsing is done in a second pass.
+ * tokenization; inline parsing is done in a second pass by the parser
+ * using real OriginTok values computed from byte offsets.
  *)
 
 (*****************************************************************************)
@@ -31,6 +32,11 @@
 
 let tok = Lexing.lexeme
 let tokinfo = Tok.tok_of_lexbuf
+
+(* claude: Queue used to emit multiple tokens from a single lexer rule.
+ * The main driver in Parse_markdown.tokenize_file drains this queue
+ * before calling the lexer again. *)
+let _pending : Token_markdown.token Queue.t = Queue.create ()
 
 }
 
@@ -53,20 +59,33 @@ let space = [' ' '\t']
 
 (* Main line-oriented lexer: processes one line at a time *)
 rule line = parse
-  (* ATX headings *)
+  (* ATX headings: capture marker tok before consuming rest of line *)
   | (('#' '#'* as hashes) ' ')
-      { let rest = rest_of_line lexbuf in
-        Token_markdown.THeading (String.length hashes, rest, tokinfo lexbuf) }
+      { let marker_ii = tokinfo lexbuf in
+        let rest = rest_of_line lexbuf in
+        let text_ii = tokinfo lexbuf in
+        Token_markdown.THeading (String.length hashes, marker_ii, rest, text_ii) }
 
-  (* Fenced code block opening: ``` or ~~~ with optional language *)
-  | ("```" '`'* as fence)  (([^ '\n' '\r']* ) as lang)
-      { Token_markdown.TFenceOpen (fence,
-          (let s = String.trim lang in if s = "" then None else Some s),
-          tokinfo lexbuf) }
-  | ("~~~" '~'* as fence) (([^ '\n' '\r']* ) as lang)
-      { Token_markdown.TFenceOpen (fence,
-          (let s = String.trim lang in if s = "" then None else Some s),
-          tokinfo lexbuf) }
+  (* Fenced code block opening: ``` or ~~~ with optional language.
+   * We emit the fence token and queue a TFenceLang if present. *)
+  | ("```" '`'* as fence)
+      { let fence_ii = tokinfo lexbuf in
+        let lang_str = rest_of_line lexbuf in
+        let lang_trimmed = String.trim lang_str in
+        if lang_trimmed <> "" then begin
+          let lang_ii = tokinfo lexbuf in
+          Queue.push (Token_markdown.TFenceLang (lang_trimmed, lang_ii)) _pending
+        end;
+        Token_markdown.TFenceOpen (fence, fence_ii) }
+  | ("~~~" '~'* as fence)
+      { let fence_ii = tokinfo lexbuf in
+        let lang_str = rest_of_line lexbuf in
+        let lang_trimmed = String.trim lang_str in
+        if lang_trimmed <> "" then begin
+          let lang_ii = tokinfo lexbuf in
+          Queue.push (Token_markdown.TFenceLang (lang_trimmed, lang_ii)) _pending
+        end;
+        Token_markdown.TFenceOpen (fence, fence_ii) }
 
   (* Thematic break: ---, ***, ___ (with optional spaces) *)
   | space* ('-' space* '-' space* '-' (space | '-')*)
