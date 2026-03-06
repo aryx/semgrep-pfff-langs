@@ -35,7 +35,7 @@ url = https://github.com/returntocorp/semgrep-ocaml.git
 	path = languages-misc/hack/tree-sitter/semgrep-hack
 url = https://github.com/returntocorp/semgrep-hack.git
 [submodule "OSS/languages/html/tree-sitter/semgrep-html"]
-	path = languages-misc/html/tree-sitter/semgrep-html
+	path = languages-markup/html/tree-sitter/semgrep-html
 url = https://github.com/returntocorp/semgrep-html.git
 [submodule "OSS/languages/tree-sitter-lang/semgrep-vue"]
 	path = languages-misc/vue/tree-sitter/semgrep-vue
