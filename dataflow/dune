@@ -1,0 +1,23 @@
+; Dataflow and control-flow analysis on the generic AST/IL.
+;
+; Try to not add too many dependencies in this directory. This library
+; is used in projects outside semgrep (e.g., codemap/efuns) which rely
+; on small dependencies.
+(library
+ (public_name dataflow_generic)
+ (name dataflow_generic)
+ (wrapped false)
+ (libraries
+   commons
+   ast_generic
+   languages
+   il_generic
+ )
+ (preprocess
+    (pps
+      profiling.ppx
+      ppx_deriving.show
+      tracing.ppx
+    )
+ )
+)

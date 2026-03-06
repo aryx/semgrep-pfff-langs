@@ -106,6 +106,16 @@ the other programming languages supported by atdgen."
   (description "IL for dataflow and control-flow analysis on AST_generic programs.")
 )
 
+(package (name pretty_print_generic)
+  (synopsis "Pretty printing for AST_generic")
+  (description "Pretty printer for the generic AST.")
+)
+
+(package (name dataflow_generic)
+  (synopsis "Dataflow and control-flow analysis")
+  (description "Dataflow and control-flow analysis on the generic AST/IL.")
+)
+
 (package (name ojsonnet)
   (synopsis "Jsonnet interpreter in OCaml")
   (description "An OCaml implementation of the Jsonnet data templating language.")

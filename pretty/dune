@@ -1,0 +1,11 @@
+(library
+ (public_name pretty_print_generic)
+ (name pretty_print_generic)
+ (wrapped false)
+ (libraries
+   commons
+   ast_generic
+   languages
+ )
+ (preprocess (pps ppx_deriving.show profiling.ppx))
+)
