@@ -3,6 +3,7 @@
  (name parser_cmt_finder)
  (wrapped false)
  (libraries
+   commons
    fpath
  )
  (preprocess (pps ppx_deriving.show profiling.ppx))
