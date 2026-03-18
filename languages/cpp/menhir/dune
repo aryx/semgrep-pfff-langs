@@ -13,9 +13,9 @@
 )
 (ocamllex lexer_cpp)
 ; Use menhir-wrapper instead of (menhir ...) to suppress known conflicts
-; and catch regressions. See menhir-wrapper at project root for details.
+; and catch regressions. See scripts/menhir-wrapper for details.
 ; Was: (menhir (modules parser_cpp) (flags --unused-tokens --explain --fixed-exception))
 (rule
  (targets parser_cpp.ml parser_cpp.mli)
  (deps parser_cpp.mly expected_menhir_conflicts)
- (action (run %{workspace_root}/menhir-wrapper parser_cpp.mly)))
+ (action (run %{project_root}/scripts/menhir-wrapper parser_cpp.mly)))

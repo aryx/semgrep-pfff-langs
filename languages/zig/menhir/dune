@@ -13,9 +13,9 @@
 )
 (ocamllex Lexer_zig)
 ; Use menhir-wrapper instead of (menhir ...) to suppress known conflicts
-; and catch regressions. See menhir-wrapper at project root for details.
+; and catch regressions. See scripts/menhir-wrapper for details.
 ; Was: (menhir (modules Parser_zig) (flags --unused-tokens --explain --fixed-exception))
 (rule
  (targets Parser_zig.ml Parser_zig.mli)
  (deps Parser_zig.mly expected_menhir_conflicts)
- (action (run %{workspace_root}/menhir-wrapper Parser_zig.mly)))
+ (action (run %{project_root}/scripts/menhir-wrapper Parser_zig.mly)))

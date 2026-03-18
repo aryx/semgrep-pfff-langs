@@ -9,9 +9,9 @@
 )
 (ocamllex Lexer)
 ; Use menhir-wrapper instead of (menhir ...) to suppress known conflicts
-; and catch regressions. See menhir-wrapper at project root for details.
+; and catch regressions. See scripts/menhir-wrapper for details.
 ; Was: (menhir (modules Parser) (flags --unused-tokens --explain --table --fixed-exception))
 (rule
  (targets Parser.ml Parser.mli)
  (deps Parser.mly)
- (action (run %{workspace_root}/menhir-wrapper Parser.mly)))
+ (action (run %{project_root}/scripts/menhir-wrapper Parser.mly)))

@@ -13,9 +13,9 @@
 )
 (ocamllex lexer_php)
 ; Use menhir-wrapper instead of (menhir ...) to suppress known conflicts
-; and catch regressions. See menhir-wrapper at project root for details.
+; and catch regressions. See scripts/menhir-wrapper for details.
 ; Was: (menhir (modules parser_php) (flags --unused-tokens --explain --fixed-exception))
 (rule
  (targets parser_php.ml parser_php.mli)
  (deps parser_php.mly expected_menhir_conflicts)
- (action (run %{workspace_root}/menhir-wrapper parser_php.mly)))
+ (action (run %{project_root}/scripts/menhir-wrapper parser_php.mly)))

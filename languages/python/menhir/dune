@@ -13,9 +13,9 @@
 )
 (ocamllex Lexer_python)
 ; Use menhir-wrapper instead of (menhir ...) to suppress known conflicts
-; and catch regressions. See menhir-wrapper at project root for details.
+; and catch regressions. See scripts/menhir-wrapper for details.
 ; Was: (menhir (modules Parser_python) (flags --unused-tokens --explain --fixed-exception))
 (rule
  (targets Parser_python.ml Parser_python.mli)
  (deps Parser_python.mly expected_menhir_conflicts)
- (action (run %{workspace_root}/menhir-wrapper Parser_python.mly)))
+ (action (run %{project_root}/scripts/menhir-wrapper Parser_python.mly)))
