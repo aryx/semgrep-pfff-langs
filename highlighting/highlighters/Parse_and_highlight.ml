@@ -1,6 +1,6 @@
 (* Yoann Padioleau
  *
- * Copyright (C) 2023 Yoann Padioleau
+ * Copyright (C) 2023-2026 Yoann Padioleau
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -43,6 +43,40 @@ let rust = {
   parse = Parse_languages.parse_rust;
   highlight = (fun ~tag_hook prefs file (ast, toks) -> 
         Highlight_AST.visit_for_highlight ~tag_hook prefs file (ast, toks));
+  info_of_tok = (fun (x, _origin) -> x);
+}
+
+let go = {
+  parse = Parse_languages.parse_go;
+  highlight = (fun ~tag_hook prefs file (ast, toks) ->
+        Highlight_AST.visit_for_highlight ~tag_hook prefs file (ast, toks);
+        toks |> List.iter (fun (info, origin) ->
+          let s = Tok.content_of_tok info in
+          (match s, origin with
+          | ("func" | "var" | "const" | "type" | "defer" | "go"
+            | "return"), PL.InCST ->
+              tag_hook info HC.Keyword
+          | ("struct" | "interface"), PL.InCST ->
+              tag_hook info HC.KeywordObject
+          | ("if" | "else" | "switch" | "case" | "default"
+            | "select"), PL.InCST ->
+              tag_hook info HC.KeywordConditional
+          | ("for" | "range" | "break" | "continue" | "goto"
+            | "fallthrough"), PL.InCST ->
+              tag_hook info HC.KeywordLoop
+          | ("panic" | "recover"), PL.InCST ->
+              tag_hook info HC.KeywordExn
+          | ("package" | "import"), PL.InCST ->
+              tag_hook info HC.KeywordModule
+          | ("chan" | "map"), PL.InCST ->
+              tag_hook info HC.TypeVoid
+          | ("true" | "false"), PL.InCST ->
+              tag_hook info HC.Boolean
+          | ("nil"), PL.InCST ->
+              tag_hook info HC.Null
+          | _else_ -> ()
+          )
+        ));
   info_of_tok = (fun (x, _origin) -> x);
 }
 

@@ -42,3 +42,6 @@ val zig:
 
 val markdown:
   (AST_markdown.program, Token_markdown.token) t
+
+val go:
+  (AST_generic.program, Tok.t * Parse_languages.origin_info) t

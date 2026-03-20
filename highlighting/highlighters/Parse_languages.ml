@@ -1,6 +1,6 @@
 (* Yoann Padioleau
  *
- * Copyright (C) 2023 Yoann Padioleau
+ * Copyright (C) 2023-2026 Yoann Padioleau
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -20,7 +20,11 @@ module H = Parse_tree_sitter_helpers
 (*****************************************************************************)
 (* Prelude *)
 (*****************************************************************************)
-(* TODO: factorize with semgrep/src/parsing/Parse_target.ml at some point *)
+(* TODO: 
+ *  - factorize code, lots of repetitive boilerplate in the parser_xxx below
+ *  - factorize with semgrep/src/parsing/Parse_target.ml at some point 
+ *  - avoid parsing 2 times the same file, one for AST, one for tokens
+ *)
 
 (*****************************************************************************)
 (* Types *)
@@ -223,6 +227,30 @@ let parse_haskell (file : Fpath.t) =
   in
   ast, tokens
 
+let parse_go (file : Fpath.t) =
+  let res = Parse_go_tree_sitter.parse file in
+  let tokens =
+    let res = Tree_sitter_go.Parse.file !!file in
+    match res.Tree_sitter_run.Parsing_result.program with
+    | None -> []
+    | Some cst ->
+       let raw = Tree_sitter_go.Boilerplate.map_source_file () cst in
+       extract_infos_raw_tree file raw
+  in
+  let ast =
+    match res.Tree_sitter_run.Parsing_result.program with
+    | Some ast ->
+        let gen = Go_to_generic.program ast in
+        Naming_AST.resolve Lang.Go gen;
+        gen
+    | None -> []
+  in
+  ast, tokens
+
+(*****************************************************************************)
+(* Special *)
+(*****************************************************************************)
+
 let parse_zig (file : Fpath.t) =
   let res =
     Common.save_excursion Flag_parsing.error_recovery true (fun () ->
@@ -288,3 +316,4 @@ let parse_ocaml (file : Fpath.t) =
       | None -> res
       )
   | _else_ -> res
+
