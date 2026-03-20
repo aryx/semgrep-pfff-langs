@@ -89,7 +89,6 @@ let visit_toplevel ~tag_hook _prefs _file (*db_opt *) (_ast, toks) =
             tag ii5 CommentEstet;
             tag ii3 CommentSection0
         | _ -> ());
-        aux_toks xs;
         let s = Tok.content_of_tok ii in
         let s2 = Tok.content_of_tok ii3 in
         (match () with
