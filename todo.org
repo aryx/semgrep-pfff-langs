@@ -1,0 +1,39 @@
+* Last
+
+** Last1
+
+*** less: semgrep-pfff-langs/languages-mini/
+where is mini-c, mini-ml, mini_php, etc. ?
+mini_php
+
+*** CLAUDE add more languages to osemgrep
+
+Notable missing languages with mature tree-sitter grammars:                                               
+Claude =>
+   
+SEMI  1. Zig — rapidly growing systems language, very active community. Tree-sitter grammar: tree-sitter-zig    
+  (well-maintained).
+
+  2. Perl — still widely used in legacy codebases, sysadmin, and bioinformatics. Tree-sitter grammar:
+  tree-sitter-perl.
+  3. Erlang — important in telecom/messaging (WhatsApp, RabbitMQ). Tree-sitter grammar: tree-sitter-erlang
+  (maintained by WhatsApp/Meta).
+  4. Nix — growing fast with the NixOS ecosystem. Tree-sitter grammar: tree-sitter-nix.
+  5. SQL — arguably the most widely used language in the world, critical for security scanning (injection
+  patterns). Tree-sitter grammar: tree-sitter-sql.
+
+  6. CSS/SCSS — universal in web development. Tree-sitter grammar: tree-sitter-css (official).
+
+  7. Clojure — popular in fintech, has a loyal community. Tree-sitter grammar: tree-sitter-clojure
+
+Pad => Zig! (good for Codemap) and CSS (good for mmm), 
+less: Perl! then Erlang then SQL
+
+**** add support for CSS? (but hard to fit in AST_generic.ml ...)
+maybe add separate AST and that's it, like I did for AST_markdown.ml
+
+**** same for SQL? hard to fit in AST_generic
+maybe add separate AST and that's it
+
+*** CLAUDE LATER fix s/r conflicts in the other parsers!
+he is pretty good at grammar engineering and solving conflicts
