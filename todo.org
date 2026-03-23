@@ -2,6 +2,17 @@
 
 ** Last1
 
+*** add a conf-tree-sitter package?
+path towards releasing the tree-sitter parsers?
+remove the battery-included tree-sitter tgz 0.22.2
+actually max added one in 2021! just need to refine it?
+https://opam.ocaml.org/packages/conf-tree-sitter/
+
+try to put back parser_lisp/ in codemap and use this
+conf-tree-sitter thing?
+
+*** LATER finish ojsonnet
+
 *** less: semgrep-pfff-langs/languages-mini/
 where is mini-c, mini-ml, mini_php, etc. ?
 mini_php

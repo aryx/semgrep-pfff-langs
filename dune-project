@@ -101,6 +101,11 @@ the other programming languages supported by atdgen."
   (description "Name resolution for AST_generic programs.")
 )
 
+(package (name finding_generic)
+  (synopsis "Generic finding resolution for AST_generic")
+  (description "Finding resolution for AST_generic files.")
+)
+
 (package (name il_generic)
   (synopsis "Intermediate Language for static analysis")
   (description "IL for dataflow and control-flow analysis on AST_generic programs.")
@@ -340,4 +345,9 @@ the other programming languages supported by atdgen."
 (package (name parser_zig)
   (synopsis "Zig parser")
   (description "Zig parser for Semgrep.")
+)
+
+(package (name parsing_generic)
+  (synopsis "xxx")
+  (description "xxx")
 )

@@ -1,0 +1,16 @@
+(library
+ (public_name finding_generic)
+ (wrapped false)
+ (libraries
+   commons
+   parsing_core
+   languages ; for Lang.ml (was semgrep.core)
+
+ )
+ (preprocess
+    (pps
+      profiling.ppx
+      ppx_deriving.show
+    )
+ )
+)

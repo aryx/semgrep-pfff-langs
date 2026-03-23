@@ -1,0 +1,23 @@
+
+(library
+ (public_name parsing_generic)
+ (wrapped false)
+ (libraries
+   commons
+   parsing_core
+
+   ast_generic
+   parser_python.menhir parser_python.ast_generic
+   parser_java.menhir parser_java.ast_generic
+   parser_javascript.menhir parser_javascript.ast_generic
+   parser_ocaml.menhir parser_ocaml.ast_generic
+   
+   naming_generic ; Naming_AST.ml
+ )
+ (preprocess
+    (pps
+      profiling.ppx
+      ppx_deriving.show
+    )
+ )
+)
