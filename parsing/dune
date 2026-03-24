@@ -5,13 +5,18 @@
  (libraries
    commons
    parsing_core
+   tree-sitter.run ; for Pfff_or_tree_sitter, Parsing_result2
+   logs
 
    ast_generic
-   parser_python.menhir parser_python.ast_generic
-   parser_java.menhir parser_java.ast_generic
+   ; menhir and tree-sitter parsers + ast_generic converters
+   parser_python.menhir parser_python.tree_sitter parser_python.ast_generic
+   parser_java.menhir parser_java.tree_sitter parser_java.ast_generic
    parser_javascript.menhir parser_javascript.ast_generic
-   parser_ocaml.menhir parser_ocaml.ast_generic
-   
+   parser_typescript.tree_sitter
+   parser_ocaml.menhir parser_ocaml.tree_sitter parser_ocaml.ast_generic
+   parser_c.menhir parser_c.tree_sitter parser_c.ast_generic
+
    naming_generic ; Naming_AST.ml
  )
  (preprocess
