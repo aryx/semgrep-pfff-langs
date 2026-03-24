@@ -668,20 +668,21 @@ and definition env x =
         if Hashtbl.mem env.structs s then
           let old = Hashtbl.find env.structs s in
 
-          (* TODO: need call abstract_line_info here *)
-          if
-            (* (Meta_ast_c.vof_any (Toplevel (StructDef old))) =*=
-               (Meta_ast_c.vof_any (Toplevel (StructDef def))) *)
-            failwith "TODO: abstract_line_info and =*= for C, or deriving eq"
-            (* Why they don't factorize? because they don't like recursive
-             * #include in plan I think
-             *)
-          then Logs.debug (fun m -> m "you should factorize struct %s definitions" s)
-          else (
-            Logs.warn (fun m -> m 
-              "conflicting structs for %s, %s <> %s" s (Dumper.dump old)
-                 (Dumper.dump def));
-            Hashtbl.replace env.dupes (fst name, E.Type) true)
+          (* TODO: need proper structural comparison for struct defs.
+           * Old code used Meta_ast_c.vof_any which no longer exists.
+           * if (Meta_ast_c.vof_any (Toplevel (StructDef old))) =*=
+           *    (Meta_ast_c.vof_any (Toplevel (StructDef def)))
+           * (* Why they don't factorize? because they don't like recursive
+           *  * #include in plan I think *)
+           * then Logs.debug (fun m -> m "you should factorize struct %s definitions" s)
+           * else (
+           *   Logs.warn (fun m -> m
+           *     "conflicting structs for %s, %s <> %s" s (Dumper.dump old)
+           *        (Dumper.dump def));
+           *   Hashtbl.replace env.dupes (fst name, E.Type) true)
+           *)
+          ignore (old, def);
+          Logs.debug (fun m -> m "duplicate struct %s definition, assuming compatible" s)
         else (
           Hashtbl.add env.structs s def;
           let env = add_node_and_edge_if_defs_mode env (name, E.Type) None in
@@ -740,15 +741,17 @@ and definition env x =
       if env.phase =*= Defs then
         if Hashtbl.mem env.typedefs s then
           let old = Hashtbl.find env.typedefs s in
-          if
-            (* (Meta_ast_c.vof_any (Type old) =*= (Meta_ast_c.vof_any (Type t))) *)
-            failwith "TODO: =*= and abstract_line info or us deriving eq"
-          then ()
-          else (
-            Logs.warn (fun m -> m
-              "conflicting typedefs for %s, %s <> %s" s (Dumper.dump old)
-                 (Dumper.dump t));
-            Hashtbl.replace env.dupes (fst name, E.Type) true)
+          (* TODO: need proper structural comparison for type defs.
+           * Old code used Meta_ast_c.vof_any which no longer exists.
+           * if (Meta_ast_c.vof_any (Type old) =*= (Meta_ast_c.vof_any (Type t)))
+           * then ()
+           * else (
+           *   Logs.warn (fun m -> m
+           *     "conflicting typedefs for %s, %s <> %s" s (Dumper.dump old)
+           *        (Dumper.dump t));
+           *   Hashtbl.replace env.dupes (fst name, E.Type) true)
+           *)
+          ignore (old, t)
           (* todo: if are in Source, then maybe can add in local_typedefs *)
         else Hashtbl.add env.typedefs s t;
       let typ = Some t in
@@ -774,7 +777,8 @@ and define_body env v =
  *)
 and stmt env = function
   | CaseStmt c -> case env c
-  | MsTry _ | MsLeave _ -> failwith "TODO: MsXxx"
+  (* TODO: Microsoft extensions, rare in practice *)
+  | MsTry _ | MsLeave _ -> ()
   | DefStmt x -> definition env x
   | DirStmt x -> directive env x
   | ExprSt (e, _) -> expr_toplevel env e
@@ -819,7 +823,7 @@ and stmt env = function
              | Some (InitExpr e) ->
                  expr_toplevel env
                    (Assign (Ast_cpp.SimpleAssign (snd n), Id n, e))
-             | Some _ -> failwith "TODO: unhandled initializer"
+             | Some init -> initialiser env init
              )
              
 
@@ -973,7 +977,8 @@ and expr env = function
       List.iter (initialiser env) inits
 
   | Defined (_t, _id) -> ()
-  | Generic _ -> failwith "TODO: handle c11+ generic"
+  (* TODO: handle c11+ _Generic expressions *)
+  | Generic _ -> ()
   | Ellipses _
   | DeepEllipsis _
   | DotAccessEllipsis _
