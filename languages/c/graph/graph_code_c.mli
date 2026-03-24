@@ -1,5 +1,5 @@
 val build :
-  Fpath.t (* root *) -> Common2.filename list -> Graph_code.t
+  Fpath.t (* root *) -> Fpath.t list -> Graph_code.t
 
 (* if want prolog facts generation *)
 val hook_use_edge :

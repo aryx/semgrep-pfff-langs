@@ -305,14 +305,20 @@ and initialiser env x =
   match x with
   | InitExpr e -> InitExpr (expr env e)
   | InitList (l, xs, r) -> A.InitList (l, List_.map (initialiser env) xs, r)
-  (* should be covered by caller *)
-  | InitDesignators _ ->
-      debug (Init x);
-      raise Todo
-  | InitIndexOld _
-  | InitFieldOld _ ->
-      debug (Init x);
-      raise Todo
+  | InitDesignators (desigs, tok, ini) ->
+      InitDesignators (List_.map (designator env) desigs, tok, initialiser env ini)
+  | InitFieldOld (name, tok, ini) ->
+      InitFieldOld (name, tok, initialiser env ini)
+  | InitIndexOld (bkt, ini) ->
+      InitIndexOld (bracket_keep (expr env) bkt, initialiser env ini)
+
+and designator env x =
+  match x with
+  | DesignatorField (dotopt, name) -> DesignatorField (dotopt, name)
+  | DesignatorIndex bkt -> DesignatorIndex (bracket_keep (expr env) bkt)
+  | DesignatorRange bkt ->
+      DesignatorRange
+        (bracket_keep (fun (e1, tok, e2) -> (expr env e1, tok, expr env e2)) bkt)
 
 and initialiser_to_expr env x : A.expr =
   match x with
@@ -787,7 +793,8 @@ and full_type env x =
         | Some n -> name env n
       in
       let xs' = xs |> unparen |> enum_elems_sequencable env |> List_.flatten in
-      let def = { A.e_name = name; e_type = failwith "TODO"; e_consts = xs' } in
+      let e_type = None (* TODO? *) in
+      let def = { A.e_name = name; e_type; e_consts = xs' } in
       env.enum_defs_toadd <- def :: env.enum_defs_toadd;
       A.TEnumName name
   | TypeOf (_, _) ->

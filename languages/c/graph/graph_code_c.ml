@@ -1,6 +1,7 @@
 (* Yoann Padioleau
  *
  * Copyright (C) 2012, 2014 Facebook
+ * Copyright (C) 2026 Yoann Padioleau
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -77,21 +78,27 @@ module Ast = Ast_c
 (* for the extract_uses visitor *)
 type env = {
   g : Graph_code.t; (* now in Graph_code.gensym:  cnt: int ref; *)
+
   phase : phase;
+
   current : Graph_code.node;
   c_file_readable : string;
   ctx : Graph_code_prolog.context;
+
   (* for prolog use/4, todo: merge in_assign with context? *)
   in_assign : bool;
   (* mostly to remove some warnings on lookup failures *)
   in_define : bool;
   (* for datalog TODO seems unused *)
   _in_return : bool;
+
   (* covers also the parameters; the type_ is really only for datalog_c *)
   locals : (string * type_ option) list ref;
   (* for static functions, globals, 'main', and local enums/constants/macros *)
   local_rename : (string, string) Hashtbl.t;
+
   conf : config;
+
   (* to accept duplicated typedefs if they are the same, and of course to
    * expand typedefs for better dependencies
    * less: we could also have a local_typedefs field
@@ -101,12 +108,12 @@ type env = {
    * maybe also for ArrayInit which should be transformed in a RecordInit.
    *)
   structs : (string, Ast.struct_def) Hashtbl.t;
+
   (* error reporting *)
   dupes : (Graph_code.node, bool) Hashtbl.t;
   (* for ArrayInit when actually used for structs *)
   fields : (string, string list) Hashtbl.t;
-  log : string -> unit;
-  pr2_and_log : string -> unit;
+
 }
 
 and phase = Defs | Uses
@@ -139,19 +146,19 @@ let hook_def_node = ref (fun _node _g -> ())
 (*****************************************************************************)
 
 (* less: could maybe call Parse_c.parse to get the parsing statistics *)
-let parse ~show_parse_error file =
+let parse ~show_parse_error (file : Fpath.t) =
   try
     (* less: make this parameters of parse_program? *)
     Common.save_excursion Flag.error_recovery true (fun () ->
         Common.save_excursion Flag.show_parsing_error show_parse_error
           (fun () ->
             Common.save_excursion Flag.verbose_parsing show_parse_error
-              (fun () -> Parse_c.parse_program (Fpath.v file))))
+              (fun () -> Parse_c.parse_program file)))
   with
   | Time_limit.Timeout _ as exn -> Exception.catch_and_reraise exn
   | exn ->
       let e = Exception.catch exn in
-      Logs.warn (fun m -> m "PARSE ERROR with %s, exn = %s" file (Common.exn_to_s exn));
+      Logs.warn (fun m -> m "PARSE ERROR with %s, exn = %s" !!file (Common.exn_to_s exn));
       Exception.reraise e
 
 (*****************************************************************************)
@@ -272,15 +279,15 @@ let find_existing_node_opt env name candidates last_resort =
           | [ y ] -> Some y
           (* real ambiguity, real dupe across different kind of entity *)
           | x :: y :: _ ->
-              env.pr2_and_log
-                (spf "skipping edge, multiple def kinds for entity %s (%s<>%s)"
+              Logs.warn (fun m -> m
+                "skipping edge, multiple def kinds for entity %s (%s<>%s)"
                    s
                    (E.string_of_entity_kind x)
                    (E.string_of_entity_kind y));
               let xfile = G.file_of_node (s, x) env.g in
               let yfile = G.file_of_node (s, y) env.g in
-              env.log (spf " orig = %s" !!xfile);
-              env.log (spf " dupe = %s" !!yfile);
+              Logs.debug (fun m -> m " orig = %s" !!xfile);
+              Logs.debug (fun m -> m " dupe = %s" !!yfile);
               None))
 
 let is_local env s =
@@ -394,10 +401,10 @@ let add_node_and_edge_if_defs_mode env (name, kind) typopt =
            | E.Type, s when s =~ "[ST]__" -> ()
            | _ when env.c_file_readable =~ ".*EXTERNAL" -> ()
            | _ ->
-               env.pr2_and_log (spf "DUPE entity: %s" (G.string_of_node node));
+               Logs.warn (fun m -> m  "DUPE entity: %s" (G.string_of_node node));
                let orig_file = G.file_of_node node env.g in
-               env.log (spf " orig = %s" !!orig_file);
-               env.log (spf " dupe = %s" env.c_file_readable);
+               Logs.debug (fun m -> m " orig = %s" !!orig_file);
+               Logs.debug (fun m -> m " dupe = %s" env.c_file_readable);
                Hashtbl.replace env.dupes node true)
        (* todo: have no Use for now for those so skip errors *)
        | E.Prototype
@@ -459,8 +466,8 @@ let add_use_edge env (name, kind) =
   match () with
   | _ when Hashtbl.mem env.dupes src || Hashtbl.mem env.dupes dst ->
       (* todo: stats *)
-      env.pr2_and_log
-        (spf "skipping edge (%s -> %s), one of it is a dupe"
+      Logs.warn (fun m -> m
+        "skipping edge (%s -> %s), one of it is a dupe"
            (G.string_of_node src) (G.string_of_node dst))
   (* plan9, those are special functions in kencc? *)
   | _ when s = "USED" || s = "SET" -> ()
@@ -478,9 +485,9 @@ let add_use_edge env (name, kind) =
       !hook_use_edge env.ctx env.in_assign (src, dst) env.g pos
   (* try to 'rekind'? we use find_existing_node now so no need to rekind *)
   | _ ->
-      let prfn = if env.in_define then env.log else env.pr2_and_log in
-      prfn
-        (spf "Lookup failure on %s (%s)" (G.string_of_node dst)
+      let prfn = if env.in_define then Logs.debug else Logs.warn in
+      prfn (fun m -> m
+        "Lookup failure on %s (%s)" (G.string_of_node dst)
            (Tok.stringpos_of_tok (snd name)))
 (* todo? still need code below?*)
 (*
@@ -666,10 +673,10 @@ and definition env x =
             (* Why they don't factorize? because they don't like recursive
              * #include in plan I think
              *)
-          then env.log (spf "you should factorize struct %s definitions" s)
+          then Logs.debug (fun m -> m "you should factorize struct %s definitions" s)
           else (
-            env.pr2_and_log
-              (spf "conflicting structs for %s, %s <> %s" s (Dumper.dump old)
+            Logs.warn (fun m -> m 
+              "conflicting structs for %s, %s <> %s" s (Dumper.dump old)
                  (Dumper.dump def));
             Hashtbl.replace env.dupes (fst name, E.Type) true)
         else (
@@ -735,8 +742,8 @@ and definition env x =
             failwith "TODO: =*= and abstract_line info or us deriving eq"
           then ()
           else (
-            env.pr2_and_log
-              (spf "conflicting typedefs for %s, %s <> %s" s (Dumper.dump old)
+            Logs.warn (fun m -> m
+              "conflicting typedefs for %s, %s <> %s" s (Dumper.dump old)
                  (Dumper.dump t));
             Hashtbl.replace env.dupes (fst name, E.Type) true)
           (* todo: if are in Source, then maybe can add in local_typedefs *)
@@ -1012,12 +1019,12 @@ and type_ env typ =
             if t' =*= t then add_use_edge env (add_prefix "T__" name, E.Type)
               (* should be done in expand_typedefs? unless we had a dupe *)
             else
-              env.pr2_and_log
-                (spf "skipping edge, probably dupe typedef %s (%s)" s
+              Logs.warn (fun m -> m
+                "skipping edge, probably dupe typedef %s (%s)" s
                    (Tok.stringpos_of_tok (snd name)))
           else
-            env.pr2_and_log
-              (spf "typedef not found: %s (%s)" s
+            Logs.warn (fun m -> m
+              "typedef not found: %s (%s)" s
                  (Tok.stringpos_of_tok (snd name)))
       | TPointer (_, x) -> aux x
       | TArray (eopt, x) ->
@@ -1037,11 +1044,9 @@ and type_ env typ =
 (* Main entry point *)
 (*****************************************************************************)
 
-let build (root : Fpath.t) files =
+let build (root : Fpath.t) (files : Fpath.t list) : Graph_code.t =
   let g = G.create () in
   G.create_initial_hierarchy g;
-
-  let chan = open_out_bin (Filename.concat !!root "pfff.log") in
 
   (* less: we could also have a local_typedefs_of_files to avoid conflicts *)
   let conf =
@@ -1074,21 +1079,11 @@ let build (root : Fpath.t) files =
       structs = Hashtbl.create 101;
       fields = Hashtbl.create 101;
       locals = ref [];
-      log =
-        (fun s ->
-          output_string chan (s ^ "\n");
-          flush chan);
-      pr2_and_log =
-        (fun s ->
-          (*if verbose then *)
-          UCommon.pr2 s;
-          output_string chan (s ^ "\n");
-          flush chan);
     }
   in
 
   (* step0: parsing *)
-  env.pr2_and_log "\nstep0: parsing";
+  Logs.info (fun m -> m "STEP0: parsing");
 
   (* we could run the parser in the different steps
    * but we need to make sure to reset some counters because
@@ -1100,26 +1095,26 @@ let build (root : Fpath.t) files =
   let elems =
     files |> List.map (fun file ->
                let ast = parse ~show_parse_error:true file in
-               let readable = (Filename_.readable ~root:(!!root) (file)) in
+               let readable = (Filename_.readable ~root:(!!root) (!!file)) in
                let local_rename = Hashtbl.create 101 in
                (ast, readable, local_rename))
   in
 
   (* step1: creating the nodes and 'Has' edges, the defs *)
-  env.pr2_and_log "\nstep1: extract defs";
+  Logs.info (fun m -> m "STEP1: extract defs");
   elems |> List.iter (fun (ast, c_file_readable, local_rename) ->
              extract_defs_uses
                { env with phase = Defs; c_file_readable; local_rename }
                ast);
 
   (* step2: creating the 'Use' edges *)
-  env.pr2_and_log "\nstep2: extract Uses";
+  Logs.info (fun m -> m "STEP2: extract Uses");
   elems |> List.iter (fun (ast, c_file_readable, local_rename) ->
              extract_defs_uses
                { env with phase = Uses; c_file_readable; local_rename }
                ast);
 
-  env.pr2_and_log "\nstep3: adjusting";
+  Logs.info (fun m -> m "STEP3: adjusting");
   if conf.propagate_deps_def_to_decl then
     Graph_code_helpers
     .propagate_users_of_functions_globals_types_to_prototype_extern_typedefs g;
