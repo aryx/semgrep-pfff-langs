@@ -5,8 +5,9 @@
  (libraries
    commons profiling process_limits
    parsing_core
+   parsing_tree_sitter ; Pfff_or_tree_sitter
    graph_code
-   parser_c.ast parser_c.menhir
+   parser_c.ast parser_c.menhir parser_c.tree_sitter
  )
  (preprocess (pps ppx_deriving.show profiling.ppx))
 )

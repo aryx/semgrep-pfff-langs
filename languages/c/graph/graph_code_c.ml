@@ -145,21 +145,23 @@ let hook_def_node = ref (fun _node _g -> ())
 (* Parsing *)
 (*****************************************************************************)
 
-(* less: could maybe call Parse_c.parse to get the parsing statistics *)
 let parse ~show_parse_error (file : Fpath.t) =
-  try
-    (* less: make this parameters of parse_program? *)
+  let pfff_parse file =
     Common.save_excursion Flag.error_recovery true (fun () ->
         Common.save_excursion Flag.show_parsing_error show_parse_error
           (fun () ->
             Common.save_excursion Flag.verbose_parsing show_parse_error
-              (fun () -> Parse_c.parse_program file)))
-  with
-  | Time_limit.Timeout _ as exn -> Exception.catch_and_reraise exn
-  | exn ->
-      let e = Exception.catch exn in
-      Logs.warn (fun m -> m "PARSE ERROR with %s, exn = %s" !!file (Common.exn_to_s exn));
-      Exception.reraise e
+              (fun () ->
+                Pfff_or_tree_sitter.throw_tokens Parse_c.parse file)))
+  in
+  let ast, _stat =
+    Pfff_or_tree_sitter.run_raw file
+      [
+        Pfff pfff_parse;
+        TreeSitter Parse_c_tree_sitter.parse;
+      ]
+  in
+  ast
 
 (*****************************************************************************)
 (* Helpers *)
@@ -170,7 +172,8 @@ let gensym s =
   incr cnt;
   spf "%s-%d" s !cnt
 
-let error s tok = failwith (spf "%s: %s" (Tok.stringpos_of_tok tok) s)
+let error s tok =
+  Logs.err (fun m -> m "%s: %s" (Tok.stringpos_of_tok tok) s)
 
 (* we can have different .c files using the same function name, so to avoid
  * dupes we locally rename those entities, e.g. main -> main__234.
@@ -648,7 +651,7 @@ and definition env x =
                      let n = name in
                      expr_toplevel env
                        (Assign (Ast_cpp.SimpleAssign (snd n), Id n, e))
-                  | _ -> failwith "TODO: graph_code_c: complex initializer"
+                  | init -> initialiser env init
                   )
       | _ -> raise Impossible)
   | StructDef def ->
@@ -770,7 +773,7 @@ and define_body env v =
  * any entities (expressions do).
  *)
 and stmt env = function
-  | CaseStmt _ -> raise Todo
+  | CaseStmt c -> case env c
   | MsTry _ | MsLeave _ -> failwith "TODO: MsXxx"
   | DefStmt x -> definition env x
   | DirStmt x -> directive env x
@@ -822,7 +825,9 @@ and stmt env = function
 
 and expr_or_vars env = function
   | Right e -> expr_toplevel env e
-  | Left _vars -> raise Todo
+  | Left vars ->
+      vars |> List.iter (fun (v : Ast.var_decl) ->
+        v.v_init |> Option.iter (initialiser env))
 
 and case env = function
   | Case (_, e, xs) ->
@@ -878,7 +883,8 @@ and expr env = function
             (if looks_like_macro name then E.Constant else E.Global)
         in
         kind_opt |> Option.iter (fun kind -> add_use_edge env (name, kind))
-  | IdSpecial _ -> failwith "TODO: IdSpecial"
+  (* SizeOf, OffsetOf, AlignOf — no dependency edges *)
+  | IdSpecial _ -> ()
 (* TODO:
   | SizeOf (_, x) -> (
       match x with
@@ -977,13 +983,19 @@ and expr env = function
 and initialiser env init =
   match init with
   | InitExpr e -> expr env e
-  | _ -> failwith "TODO: unhandled initializer"
+  | InitList (_, inits, _) -> List.iter (initialiser env) inits
+  | InitDesignators (_desigs, _tok, init) -> initialiser env init
+  | InitFieldOld (_name, _tok, init) -> initialiser env init
+  | InitIndexOld (_e_bracket, init) -> initialiser env init
 
 and exprs env xs = xs |> List.iter (expr env)
 and args env xs = xs |> List.iter (function
       | Arg e -> expr env e
-      | ArgType _ -> failwith "TODO: ArgType"
-      | ArgBlock _ -> failwith "TODO: ArgBlock"
+      | ArgType t -> type_ env t
+      | ArgBlock (_, xs, _) ->
+          xs |> List.iter (function
+            | X st -> stmt env st
+            | _ -> ())
   )
 (* ---------------------------------------------------------------------- *)
 (* Types *)
