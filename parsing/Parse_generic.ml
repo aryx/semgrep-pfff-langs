@@ -44,6 +44,16 @@ let lang_to_python_parsing_mode = function
   | Lang.Python3 -> Parse_python.Python3
   | s -> failwith (spf "not a python language:%s" (Lang.to_string s))
 
+(* Wrapper around Pfff_or_tree_sitter.run_either_filtered that converts
+ * the result to Parsing_result2.t via an AST_generic converter. *)
+let run file xs fconvert =
+  match run_either_filtered file xs with
+  | ResOk (ast, stat, tolerable_errors) ->
+      Parsing_result2.ok (fconvert ast) stat tolerable_errors
+  | ResPartial (ast, stat, errors) ->
+      Parsing_result2.partial (fconvert ast) stat errors
+  | ResError e -> Exception.reraise e
+
 (*****************************************************************************)
 (* API *)
 (*****************************************************************************)

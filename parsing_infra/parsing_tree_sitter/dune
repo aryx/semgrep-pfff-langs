@@ -6,6 +6,7 @@
    commons
    parsing_core
    tree-sitter.run
+   logs
  )
  (preprocess (pps profiling.ppx ppx_deriving.show))
 )

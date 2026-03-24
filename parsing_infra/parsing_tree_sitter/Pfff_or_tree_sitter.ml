@@ -66,9 +66,17 @@ let exn_of_loc loc =
   let info = Tok.OriginTok loc in
   Parsing_error.Syntax_error info |> Exception.trace
 
-(* used by Parse_jsonnet *)
+let loc_of_tree_sitter_error (err : Tree_sitter_run.Tree_sitter_error.t) =
+  let start = err.start_pos in
+  {
+    Loc.str = err.substring;
+    pos =
+      Pos.make (Fpath.v err.file.name) ~line:(start.row + 1)
+        ~column:start.column 0;
+  }
+
 let error_of_tree_sitter_error (err : Tree_sitter_run.Tree_sitter_error.t) =
-  let loc = Parsing_result2.loc_of_tree_sitter_error err in
+  let loc = loc_of_tree_sitter_error err in
   exn_of_loc loc
 
 let stat_of_tree_sitter_stat file (stat : Tree_sitter_run.Parsing_result.stat) =
@@ -235,35 +243,40 @@ let rec (run_either : Fpath.t -> 'ast parser list -> 'ast internal_result) =
               ResError e1))
 
 (*****************************************************************************)
-(* Entry point *)
+(* Entry points *)
 (*****************************************************************************)
 
-let (run :
+let filter_parsers xs =
+  match () with
+  | () when !tree_sitter_only ->
+      xs
+      |> List.filter (function
+           | Pfff _ -> false
+           | TreeSitter _ -> true)
+  | () when !pfff_only ->
+      xs
+      |> List.filter (function
+           | TreeSitter _ -> false
+           | Pfff _ -> true)
+  | () -> xs
+
+(* Returns the language-specific AST directly. *)
+let (run_raw :
       Fpath.t ->
       'ast parser list ->
-      ('ast -> AST_generic.program) ->
-      Parsing_result2.t) =
- fun file xs fconvert ->
-  let xs =
-    match () with
-    | () when !tree_sitter_only ->
-        xs
-        |> List.filter (function
-             | Pfff _ -> false
-             | TreeSitter _ -> true)
-    | () when !pfff_only ->
-        xs
-        |> List.filter (function
-             | TreeSitter _ -> false
-             | Pfff _ -> true)
-    | () -> xs
-  in
-  match run_either file xs with
-  | ResOk (ast, stat, tolerable_errors) ->
-      Parsing_result2.ok (fconvert ast) stat tolerable_errors
-  | ResPartial (ast, stat, errors) ->
-      Parsing_result2.partial (fconvert ast) stat errors
+      'ast * Parsing_stat.t) =
+ fun file xs ->
+  match run_either file (filter_parsers xs) with
+  | ResOk (ast, stat, _) | ResPartial (ast, stat, _) -> (ast, stat)
   | ResError e -> Exception.reraise e
+
+(* Returns the full internal_result for callers that need error details. *)
+let (run_either_filtered :
+      Fpath.t ->
+      'ast parser list ->
+      'ast internal_result) =
+ fun file xs ->
+  run_either file (filter_parsers xs)
 
 (*****************************************************************************)
 (* Similar to run, but for pattern parsing *)
@@ -313,14 +326,6 @@ let run_pattern parsers program =
 (*****************************************************************************)
 (* Other helpers *)
 (*****************************************************************************)
-
-(* Simplified version of 'run' that allows for plugins to hide the
-   intermediate AST type. *)
-let run_external_parser (file : Fpath.t)
-    (parse :
-      Fpath.t -> (AST_generic.program, unit) Tree_sitter_run.Parsing_result.t) :
-    Parsing_result2.t =
-  run file [ TreeSitter parse ] (fun ast -> ast)
 
 let throw_tokens f file =
   let res = f file in

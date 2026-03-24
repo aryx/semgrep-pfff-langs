@@ -5,8 +5,8 @@
  (libraries
    commons
    parsing_core
-   tree-sitter.run ; for Pfff_or_tree_sitter, Parsing_result2
-   logs
+   parsing_tree_sitter ; Pfff_or_tree_sitter, throw_tokens, etc.
+   tree-sitter.run ; for Parsing_result2
 
    ast_generic
    ; menhir and tree-sitter parsers + ast_generic converters
